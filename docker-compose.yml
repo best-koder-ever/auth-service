@@ -4,21 +4,23 @@ services:
   auth-service:
     build: .
     ports:
-      - "5000:5000"
+      - "5000:8080"  # Host port 5000 mapped to container port 8080
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://*:8080  # Set the application to listen on port 8080 on all interfaces
+      - ConnectionStrings__DefaultConnection=Server=db;Database=AuthServiceDb;User=authuser;Password=authpassword;
     depends_on:
       - db
 
   db:
     image: mysql:8.0
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: AuthServiceDb
-      MYSQL_USER: authuser
-      MYSQL_PASSWORD: ""
+      MYSQL_ROOT_PASSWORD: rootpassword  # Set the root password for MySQL
+      MYSQL_DATABASE: AuthServiceDb  # Set the name of the initial database
+      MYSQL_USER: authuser  # Set the name of a non-root user
+      MYSQL_PASSWORD: authpassword  # Set the password for the non-root user
     ports:
-      - "3306:3306"
+      - "3307:3306"
     volumes:
       - db_data:/var/lib/mysql
 

@@ -16,7 +16,7 @@ WORKDIR /app
 COPY --from=build-env /app/out .
 
 # Expose port
-EXPOSE 80
+EXPOSE 5000
 
 # Run the application
 ENTRYPOINT ["dotnet", "AuthService.dll"]
