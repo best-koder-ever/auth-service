@@ -1,22 +1,24 @@
-# Use the official .NET image as a build environment
+# Stage 1: Build
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
 WORKDIR /app
 
-# Copy csproj and restore as distinct layers
-COPY AuthService/*.csproj ./
-RUN dotnet restore
+# Copy the project file and restore dependencies
+COPY AuthService/AuthService.csproj ./AuthService/
+RUN dotnet restore ./AuthService/AuthService.csproj
 
-# Copy everything else and build
-COPY AuthService/. ./
-RUN dotnet publish -c Release -o out
+# Copy the rest of the application files
+COPY AuthService/ ./AuthService/
 
-# Build runtime image
+# Build the application
+RUN dotnet publish ./AuthService/AuthService.csproj -c Release -o out
+
+# Stage 2: Runtime
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
-COPY --from=build-env /app/out .
+COPY --from=build-env /app/AuthService/out .
 
-# Expose port
-EXPOSE 5000
+# Expose port 80
+EXPOSE 80
 
-# Run the application
+# Set the entry point for the application
 ENTRYPOINT ["dotnet", "AuthService.dll"]
