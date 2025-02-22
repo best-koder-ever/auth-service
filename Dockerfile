@@ -17,8 +17,8 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
 COPY --from=build-env /app/AuthService/out .
 
-# Expose port 80
-EXPOSE 80
+# Expose port 8081
+EXPOSE 8081
 
 # Set the entry point for the application
 ENTRYPOINT ["dotnet", "AuthService.dll"]
