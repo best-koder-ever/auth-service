@@ -1,0 +1,51 @@
+@AuthService_HostAddress = http://localhost:5151
+
+### Register a new user
+POST {{AuthService_HostAddress}}/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "email": "testuser@example.com",
+  "password": "Test@1234",
+  "phoneNumber": "1234567890"
+}
+
+### Login with email and password
+POST {{AuthService_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "testuser@example.com",
+  "password": "Test@1234"
+}
+
+### Login with Facebook
+POST {{AuthService_HostAddress}}/api/auth/login/facebook
+Content-Type: application/json
+
+{
+  "accessToken": "your_facebook_access_token"
+}
+
+### Login with Google
+POST {{AuthService_HostAddress}}/api/auth/login/google
+Content-Type: application/json
+
+{
+  "idToken": "your_google_id_token"
+}
+
+### Login with Phone Number
+POST {{AuthService_HostAddress}}/api/auth/login/phone
+Content-Type: application/json
+
+{
+  "phoneNumber": "1234567890",
+  "code": "123456"
+}
+
+GET {{AuthService_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
