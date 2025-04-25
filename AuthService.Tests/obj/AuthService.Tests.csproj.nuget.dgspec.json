@@ -44,7 +44,7 @@
           "dependencies": {
             "FluentAssertions": {
               "target": "Package",
-              "version": "[6.11.0, )"
+              "version": "[8.2.0, )"
             },
             "Microsoft.AspNetCore.Http.Abstractions": {
               "target": "Package",

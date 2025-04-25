@@ -37,7 +37,7 @@
       "AuthService.Tests/1.0.0": {
         "dependencies": {
           "AuthService": "1.0.0",
-          "FluentAssertions": "6.11.0",
+          "FluentAssertions": "8.2.0",
           "Microsoft.AspNetCore.Http.Abstractions": "2.3.0",
           "Microsoft.AspNetCore.Mvc.Testing": "8.0.0",
           "Microsoft.NET.Test.Sdk": "17.13.0",
@@ -394,14 +394,11 @@
         }
       },
       "coverlet.collector/6.0.4": {},
-      "FluentAssertions/6.11.0": {
-        "dependencies": {
-          "System.Configuration.ConfigurationManager": "6.0.1"
-        },
+      "FluentAssertions/8.2.0": {
         "runtime": {
           "lib/net6.0/FluentAssertions.dll": {
-            "assemblyVersion": "6.11.0.0",
-            "fileVersion": "6.11.0.0"
+            "assemblyVersion": "8.2.0.0",
+            "fileVersion": "8.2.0.0"
           }
         },
         "compile": {
@@ -1452,9 +1449,6 @@
             "assemblyVersion": "6.0.0.0",
             "fileVersion": "6.0.21.52210"
           }
-        },
-        "compile": {
-          "lib/net6.0/Microsoft.Win32.SystemEvents.dll": {}
         }
       },
       "Moq/4.20.72": {
@@ -1755,9 +1749,6 @@
             "assemblyVersion": "6.0.0.0",
             "fileVersion": "6.0.922.41905"
           }
-        },
-        "compile": {
-          "lib/net6.0/System.Configuration.ConfigurationManager.dll": {}
         }
       },
       "System.Diagnostics.Debug/4.3.0": {
@@ -1802,9 +1793,6 @@
             "assemblyVersion": "6.0.0.0",
             "fileVersion": "6.0.21.52210"
           }
-        },
-        "compile": {
-          "lib/net6.0/System.Drawing.Common.dll": {}
         }
       },
       "System.Formats.Asn1/5.0.0": {},
@@ -1994,9 +1982,6 @@
             "assemblyVersion": "6.0.0.0",
             "fileVersion": "6.0.21.52210"
           }
-        },
-        "compile": {
-          "lib/net6.0/System.Security.Permissions.dll": {}
         }
       },
       "System.Security.Principal.Windows/5.0.0": {},
@@ -2077,9 +2062,6 @@
             "assemblyVersion": "6.0.0.0",
             "fileVersion": "6.0.21.52210"
           }
-        },
-        "compile": {
-          "lib/net6.0/System.Windows.Extensions.dll": {}
         }
       },
       "Twilio/7.8.0": {
@@ -3942,12 +3924,12 @@
       "path": "coverlet.collector/6.0.4",
       "hashPath": "coverlet.collector.6.0.4.nupkg.sha512"
     },
-    "FluentAssertions/6.11.0": {
+    "FluentAssertions/8.2.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-aBaagwdNtVKkug1F3imGXUlmoBd8ZUZX8oQ5niThaJhF79SpESe1Gzq7OFuZkQdKD5Pa4Mone+jrbas873AT4g==",
-      "path": "fluentassertions/6.11.0",
-      "hashPath": "fluentassertions.6.11.0.nupkg.sha512"
+      "sha512": "sha512-Gh4jkECcrR0i17ofCVqsiVz2+lxC+p5TYFPCrbZFi7eQQWGEZhvCDwvhycBKX1Kmtbd+H2CW/ugW7wdH9Br9NQ==",
+      "path": "fluentassertions/8.2.0",
+      "hashPath": "fluentassertions.8.2.0.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Authentication.Facebook/8.0.2": {
       "type": "package",
