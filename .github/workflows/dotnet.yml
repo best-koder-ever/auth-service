@@ -1,48 +1,9 @@
-name: .NET CI Workflow
-
+name: Test Runner
 on:
-  push:
-    branches:
-      - main
-  workflow_dispatch: # Allow manual triggering of the workflow
-
+  workflow_dispatch:
 jobs:
-  build-and-test:
+  test:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: '8.0.x'
-
-    - name: Restore dependencies
-      run: dotnet restore
-
-    - name: Build the project
-      run: dotnet build --no-restore --configuration Release
-
-    - name: Run tests and generate coverage report
-      run: |
-        dotnet test AuthService.Tests/AuthService.Tests.csproj \
-          --no-build \
-          --configuration Release \
-          --logger "trx;LogFileName=test_results.trx" \
-          /p:CollectCoverage=true \
-          /p:CoverletOutput=./coverage/ \
-          /p:CoverletOutputFormat=cobertura
-
-    - name: Upload test results
-      uses: actions/upload-artifact@v2
-      with:
-        name: test-results
-        path: '**/*.trx'
-
-    - name: Upload coverage report
-      uses: actions/upload-artifact@v2
-      with:
-        name: coverage-report
-        path: './coverage/*.cobertura.xml'
+    - name: Print Hello World
+      run: echo "Hello, World!"
