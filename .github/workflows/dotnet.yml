@@ -5,10 +5,6 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-<<<<<<< HEAD
-    - name: Print Hello World
-      run: echo "Hello, World!"
-=======
     - name: Checkout code
       uses: actions/checkout@v3
 
@@ -40,4 +36,17 @@ jobs:
       with:
         name: test-results
         path: auth-service/AuthService.Tests/TestResults
->>>>>>> 3bc0d5e (Update auth-service: Sat 26 Apr 2025 01:19:12 PM CEST. Modified files:)
+
+    - name: Install ReportGenerator
+      run: dotnet tool install -g dotnet-reportgenerator-globaltool
+
+    - name: Generate Coverage Report
+      run: |
+        reportgenerator -reports:auth-service/AuthService.Tests/TestResults/**/*.xml \
+                        -targetdir:auth-service/AuthService.Tests/CoverageReport
+
+    - name: Upload Coverage Report
+      uses: actions/upload-artifact@v3
+      with:
+        name: coverage-report
+        path: auth-service/AuthService.Tests/CoverageReport
