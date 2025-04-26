@@ -1,22 +1,48 @@
-name: Test Upload Artifact
+name: .NET CI Workflow
 
 on:
   push:
     branches:
       - main
+  workflow_dispatch: # Allow manual triggering of the workflow
 
 jobs:
-  test:
+  build-and-test:
     runs-on: ubuntu-latest
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Create a dummy file
-      run: echo "test" > dummy.txt
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.0.x'
 
-    - name: Upload dummy file
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build the project
+      run: dotnet build --no-restore --configuration Release
+
+    - name: Run tests and generate coverage report
+      run: |
+        dotnet test AuthService.Tests/AuthService.Tests.csproj \
+          --no-build \
+          --configuration Release \
+          --logger "trx;LogFileName=test_results.trx" \
+          /p:CollectCoverage=true \
+          /p:CoverletOutput=./coverage/ \
+          /p:CoverletOutputFormat=cobertura
+
+    - name: Upload test results
       uses: actions/upload-artifact@v2
       with:
-        name: dummy-file
-        path: dummy.txt
+        name: test-results
+        path: '**/*.trx'
+
+    - name: Upload coverage report
+      uses: actions/upload-artifact@v2
+      with:
+        name: coverage-report
+        path: './coverage/*.cobertura.xml'
