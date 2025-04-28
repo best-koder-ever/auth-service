@@ -7,6 +7,9 @@ using Microsoft.EntityFrameworkCore;
 using AuthService.Data;
 using System.Security.Cryptography;
 using AuthService.Services;
+using AuthService.Models;
+using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
 
 namespace AuthService.Tests
 {
@@ -31,6 +34,18 @@ namespace AuthService.Tests
                     options.UseInMemoryDatabase("InMemoryDbForTesting");
                 });
 
+                // Add SignInManager configuration
+                services.AddIdentityCore<User>(options =>
+                {
+                    options.Password.RequireDigit = false;
+                    options.Password.RequiredLength = 6;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequireLowercase = false;
+                })
+                .AddSignInManager()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+
                 // Build the service provider.
                 var sp = services.BuildServiceProvider();
 
@@ -42,6 +57,15 @@ namespace AuthService.Tests
 
                     // Ensure the database is created.
                     db.Database.EnsureCreated();
+
+                    // Seed a test user
+                    var userManager = scopedServices.GetRequiredService<UserManager<User>>();
+                    var user = new User
+                    {
+                        Email = "test@example.com",
+                        UserName = "testuser"
+                    };
+                    userManager.CreateAsync(user, "password123").Wait();
                 }
             });
         }
