@@ -1,0 +1,80 @@
+Test run for /home/m/development/DatingApp/auth-service/AuthService.Tests/bin/Release/net8.0/AuthService.Tests.dll (.NETCoreApp,Version=v8.0)
+Microsoft (R) Test Execution Command Line Tool Version 17.8.0 (x64)
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+Starting test execution, please wait...
+A total of 1 test files matched the specified pattern.
+[11:37:04 INF] Hello, World! Serilog is working!
+[11:37:04 INF] Hello, World! Serilog is working!
+[11:37:04 INF] Hello, World! Serilog is working!
+[11:37:04 INF] This is a test log for Seq and Loki.
+[11:37:04 INF] This is a test log for Seq and Loki.
+[11:37:04 INF] This is a test log for Seq and Loki.
+     Warning:
+     The component "Fluent Assertions" is governed by the rules defined in the Xceed License Agreement and
+     the Xceed Fluent Assertions Community License. You may use Fluent Assertions free of charge for
+     non-commercial use only. An active subscription is required to use Fluent Assertions for commercial use.
+
+     Please contact Xceed Sales mailto:sales@xceed.com to acquire a subscription at a very low cost.
+
+     A paid commercial license supports the development and continued increasing support of
+     Fluent Assertions users under both commercial and community licenses. Help us
+     keep Fluent Assertions at the forefront of unit testing.
+
+     For more information, visit https://xceed.com/products/unit-testing/fluent-assertions/
+info: Microsoft.EntityFrameworkCore.Update[30100]
+      Saved 0 entities to in-memory store.
+warn: Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware[3]
+      Failed to determine the https port for redirect.
+warn: Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware[3]
+      Failed to determine the https port for redirect.
+warn: Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware[3]
+      Failed to determine the https port for redirect.
+[xUnit.net 00:00:01.42]     AuthService.Tests.IntegrationTests.AuthServiceTokenValidationTests.ValidateToken_ShouldReturnOk_WhenTokenIsValid [FAIL]
+[xUnit.net 00:00:01.43]     AuthService.Tests.IntegrationTests.AuthServiceTokenValidationTests.ValidateToken_ShouldReturnUnauthorized_WhenTokenIsInvalid [FAIL]
+  Failed AuthService.Tests.IntegrationTests.AuthServiceTokenValidationTests.ValidateToken_ShouldReturnOk_WhenTokenIsValid [1 s]
+  Error Message:
+   Expected response.IsSuccessStatusCode to be True, but found False.
+  Stack Trace:
+     at FluentAssertions.Execution.LateBoundTestFramework.Throw(String message)
+   at FluentAssertions.Execution.DefaultAssertionStrategy.HandleFailure(String message)
+   at FluentAssertions.Execution.AssertionScope.AddPreFormattedFailure(String formattedFailureMessage)
+   at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+   at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+   at FluentAssertions.Execution.AssertionChain.FailWith(String message, Object[] args)
+   at FluentAssertions.Primitives.BooleanAssertions`1.BeTrue(String because, Object[] becauseArgs)
+   at AuthService.Tests.IntegrationTests.AuthServiceTokenValidationTests.ValidateToken_ShouldReturnOk_WhenTokenIsValid() in /home/m/development/DatingApp/auth-service/AuthService.Tests/Tests/IntegrationTests/AuthServiceTokenValidationTests.cs:line 49
+--- End of stack trace from previous location ---
+  Failed AuthService.Tests.IntegrationTests.AuthServiceTokenValidationTests.ValidateToken_ShouldReturnUnauthorized_WhenTokenIsInvalid [8 ms]
+  Error Message:
+   Expected response.StatusCode to be HttpStatusCode.Unauthorized {value: 401}, but found HttpStatusCode.UnsupportedMediaType {value: 415}.
+  Stack Trace:
+     at FluentAssertions.Execution.LateBoundTestFramework.Throw(String message)
+   at FluentAssertions.Execution.DefaultAssertionStrategy.HandleFailure(String message)
+   at FluentAssertions.Execution.AssertionScope.AddPreFormattedFailure(String formattedFailureMessage)
+   at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+   at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+   at FluentAssertions.Execution.AssertionChain.FailWith(String message, Object[] args)
+   at FluentAssertions.Primitives.EnumAssertions`2.Be(TEnum expected, String because, Object[] becauseArgs)
+   at AuthService.Tests.IntegrationTests.AuthServiceTokenValidationTests.ValidateToken_ShouldReturnUnauthorized_WhenTokenIsInvalid() in /home/m/development/DatingApp/auth-service/AuthService.Tests/Tests/IntegrationTests/AuthServiceTokenValidationTests.cs:line 65
+--- End of stack trace from previous location ---
+[xUnit.net 00:00:01.55]     AuthService.Tests.IntegrationTests.AuthServiceIntegrationTests.LoginAsync_ShouldReturnToken_WhenCredentialsAreValid [FAIL]
+info: Microsoft.EntityFrameworkCore.Update[30100]
+      Saved 1 entities to in-memory store.
+info: Microsoft.EntityFrameworkCore.Update[30100]
+      Saved 1 entities to in-memory store.
+  Failed AuthService.Tests.IntegrationTests.AuthServiceIntegrationTests.LoginAsync_ShouldReturnToken_WhenCredentialsAreValid [26 ms]
+  Error Message:
+   Expected boolean to be True, but found False.
+  Stack Trace:
+     at FluentAssertions.Execution.LateBoundTestFramework.Throw(String message)
+   at FluentAssertions.Execution.DefaultAssertionStrategy.HandleFailure(String message)
+   at FluentAssertions.Execution.AssertionScope.AddPreFormattedFailure(String formattedFailureMessage)
+   at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+   at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
+   at FluentAssertions.Execution.AssertionChain.FailWith(String message, Object[] args)
+   at FluentAssertions.Primitives.BooleanAssertions`1.BeTrue(String because, Object[] becauseArgs)
+   at AuthService.Tests.IntegrationTests.AuthServiceIntegrationTests.LoginAsync_ShouldReturnToken_WhenCredentialsAreValid() in /home/m/development/DatingApp/auth-service/AuthService.Tests/Tests/IntegrationTests/AuthServiceIntegrationTests.cs:line 36
+--- End of stack trace from previous location ---
+
+Failed!  - Failed:     3, Passed:     6, Skipped:     0, Total:     9, Duration: 1 s - AuthService.Tests.dll (net8.0)

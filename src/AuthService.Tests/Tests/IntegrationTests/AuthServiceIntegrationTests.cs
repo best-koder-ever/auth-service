@@ -55,5 +55,22 @@ namespace AuthService.Tests.IntegrationTests
             // Assert
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.Unauthorized);
         }
+
+        [Fact]
+        public async Task LoginAsync_ShouldReturnUnauthorized_WhenUserDoesNotExist()
+        {
+            // Arrange
+            var loginDto = new LoginDto
+            {
+                Email = "nonexistent@example.com",
+                Password = "password123"
+            };
+
+            // Act
+            var response = await _client.PostAsJsonAsync("/api/auth/login", loginDto);
+
+            // Assert
+            response.StatusCode.Should().Be(System.Net.HttpStatusCode.Unauthorized);
+        }
     }
 }

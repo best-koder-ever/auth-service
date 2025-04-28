@@ -186,8 +186,19 @@ m2a/NKF5Zyi1ZuVAr7VkMgw+
             var token = _authService.GenerateJwtToken(user);
 
             // Assert
-            token.Should().NotBeNullOrEmpty();
-            token.Should().Contain(".");
+            token.Should().NotBeNullOrEmpty(); // Ensure the token is not null or empty
+            token.Should().Contain("."); // Ensure the token contains at least one period
+            token.Split('.').Length.Should().Be(3); // Ensure the token has exactly three parts (header, payload, signature)
+
+            // Optionally, parse the token to validate its structure
+            var parts = token.Split('.');
+            var header = parts[0];
+            var payload = parts[1];
+            var signature = parts[2];
+
+            header.Should().NotBeNullOrEmpty();
+            payload.Should().NotBeNullOrEmpty();
+            signature.Should().NotBeNullOrEmpty();
         }
     }
 }
