@@ -1,20 +1,96 @@
-// Add SignInManager configuration
-services.AddIdentityCore<User>(options =>
-{
-    options.Password.RequireDigit = false;
-    options.Password.RequiredLength = 6;
-    options.Password.RequireNonAlphanumeric = false;
-    options.Password.RequireUppercase = false;
-    options.Password.RequireLowercase = false;
-})
-.AddSignInManager()
-.AddEntityFrameworkStores<ApplicationDbContext>();
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
+using AuthService.Data;
+using System.Security.Cryptography;
+using AuthService.Services;
+using AuthService.Models;
+using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
 
-// Seed a test user
-var userManager = scopedServices.GetRequiredService<UserManager<User>>();
-var user = new User
+namespace AuthService.Tests
 {
-    Email = "test@example.com",
-    UserName = "testuser"
-};
-userManager.CreateAsync(user, "password123").Wait();
+    public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup> where TStartup : class
+    {
+        protected override void ConfigureWebHost(IWebHostBuilder builder)
+        {
+            builder.ConfigureServices(services =>
+            {
+                // Remove the app's ApplicationDbContext registration.
+                var descriptor = services.SingleOrDefault(
+                    d => d.ServiceType == typeof(DbContextOptions<ApplicationDbContext>));
+
+                if (descriptor != null)
+                {
+                    services.Remove(descriptor);
+                }
+
+                // Add ApplicationDbContext using an in-memory database for testing.
+                services.AddDbContext<ApplicationDbContext>(options =>
+                {
+                    options.UseInMemoryDatabase("InMemoryDbForTesting");
+                });
+
+                // Add SignInManager configuration
+                services.AddIdentityCore<User>(options =>
+                {
+                    options.Password.RequireDigit = false;
+                    options.Password.RequiredLength = 6;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequireLowercase = false;
+                })
+                .AddSignInManager()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+
+                // Build the service provider.
+                var sp = services.BuildServiceProvider();
+
+                // Create a scope to obtain a reference to the database context (ApplicationDbContext).
+                using (var scope = sp.CreateScope())
+                {
+                    var scopedServices = scope.ServiceProvider;
+                    var db = scopedServices.GetRequiredService<ApplicationDbContext>();
+
+                    // Ensure the database is created.
+                    db.Database.EnsureCreated();
+
+                    // Seed a test user
+                    var userManager = scopedServices.GetRequiredService<UserManager<User>>();
+                    var user = new User
+                    {
+                        Email = "test@example.com",
+                        UserName = "testuser"
+                    };
+                    userManager.CreateAsync(user, "password123").Wait();
+                }
+            });
+        }
+
+        protected override IHost CreateHost(IHostBuilder builder)
+        {
+            builder.UseEnvironment("Testing");
+
+            builder.ConfigureServices(services =>
+            {
+                // Mock the private key for testing purposes
+                var keyProvider = services.SingleOrDefault(d => d.ServiceType == typeof(IKeyProvider));
+                if (keyProvider != null)
+                {
+                    services.Remove(keyProvider);
+                }
+
+                services.AddSingleton<IKeyProvider>(provider =>
+                {
+                    var rsa = RSA.Create(2048);
+                    return new InMemoryKeyProvider(rsa);
+                });
+            });
+
+            return base.CreateHost(builder);
+        }
+    }
+}

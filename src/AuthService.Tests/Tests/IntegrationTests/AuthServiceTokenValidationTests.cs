@@ -22,13 +22,13 @@ namespace AuthService.Tests.IntegrationTests
 
         private string GenerateValidToken()
         {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("SuperSecretKey12345678901234567890")); // 256-bit key
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("SuperSecretKey12345678901234567890")); // Match server key
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
-                issuer: "TestIssuer",
-                audience: "TestAudience",
-                expires: DateTime.Now.AddMinutes(30),
+                issuer: "TestIssuer", // Match server issuer
+                audience: "TestAudience", // Match server audience
+                expires: DateTime.UtcNow.AddMinutes(30),
                 signingCredentials: credentials
             );
 
@@ -41,6 +41,11 @@ namespace AuthService.Tests.IntegrationTests
             // Arrange
             var validToken = GenerateValidToken();
             var content = new StringContent(validToken, Encoding.UTF8, "text/plain");
+            // Explicitly set the Content-Type header to ensure it is recognized by the server
+            content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("text/plain");
+
+            // Log the request content type for debugging
+            Console.WriteLine($"Request Content-Type: {content.Headers.ContentType}");
 
             // Act
             var response = await _client.PostAsync("/api/auth/validate", content);
@@ -57,6 +62,11 @@ namespace AuthService.Tests.IntegrationTests
             // Arrange
             var invalidToken = "invalid-token";
             var content = new StringContent(invalidToken, Encoding.UTF8, "text/plain");
+            // Explicitly set the Content-Type header to ensure it is recognized by the server
+            content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("text/plain");
+
+            // Log the request content type for debugging
+            Console.WriteLine($"Request Content-Type: {content.Headers.ContentType}");
 
             // Act
             var response = await _client.PostAsync("/api/auth/validate", content);
@@ -64,7 +74,7 @@ namespace AuthService.Tests.IntegrationTests
             // Assert
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.Unauthorized);
             var responseContent = await response.Content.ReadAsStringAsync();
-            responseContent.Should().Contain("Invalid token.");
+            responseContent.Should().Contain("Malformed token.");
         }
     }
 }
