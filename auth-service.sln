@@ -2,9 +2,9 @@
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthService", "src/AuthService/AuthService.csproj", "{8266F838-704C-4C3E-A239-FD459E0CB47B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthService", "AuthService.csproj", "{8266F838-704C-4C3E-A239-FD459E0CB47B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthService.Tests", "src/AuthService.Tests/AuthService.Tests.csproj", "{48FFC597-E253-4EBD-8050-69C439984251}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthService.Tests", "src\\AuthService.Tests\\AuthService.Tests.csproj", "{48FFC597-E253-4EBD-8050-69C439984251}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
