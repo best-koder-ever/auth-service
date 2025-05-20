@@ -3,14 +3,15 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
 WORKDIR /app
 
 # Copy the project file and restore dependencies
-COPY AuthService/AuthService.csproj AuthService/
-RUN dotnet restore AuthService/AuthService.csproj
+COPY src/AuthService/AuthService.csproj src/AuthService/
+RUN dotnet restore src/AuthService/AuthService.csproj
 
 # Copy the entire project
-COPY AuthService/ AuthService/
+COPY src/AuthService/ src/AuthService/
+# COPY src/AuthService.Tests/ src/AuthService.Tests/ # Assuming tests might be needed in build - Temporarily commented out
 
 # Build and publish the application
-RUN dotnet publish AuthService/AuthService.csproj -c Release -o out
+RUN dotnet publish src/AuthService/AuthService.csproj -c Release -o out
 
 # Stage 2: Runtime
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
@@ -20,7 +21,7 @@ WORKDIR /app
 COPY --from=build-env /app/out .
 
 # Copy the private key
-COPY AuthService/private.key /app/private.key
+COPY src/AuthService/private.key /app/private.key
 
 # Expose port 8081
 EXPOSE 8081
