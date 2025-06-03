@@ -5,5 +5,39 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+<<<<<<< HEAD
     - name: Print Hello World
       run: echo "Hello, World!"
+=======
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Restore dependencies
+      run: dotnet restore /home/m/development/DatingApp/auth-service/auth-service.sln
+
+    - name: Build solution
+      run: dotnet build /home/m/development/DatingApp/auth-service/auth-service.sln --no-restore --configuration Release
+
+    - name: Run tests with coverage
+      run: |
+        dotnet test /home/m/development/DatingApp/auth-service/AuthService.Tests/AuthService.Tests.csproj --no-build --configuration Release \
+          --collect:"XPlat Code Coverage" \
+          --results-directory /home/m/development/DatingApp/auth-service/AuthService.Tests/TestResults
+
+    - name: Upload coverage report
+      uses: actions/upload-artifact@v3
+      with:
+        name: code-coverage-report
+        path: auth-service/AuthService.Tests/TestResults
+
+    - name: Publish test results
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-results
+        path: auth-service/AuthService.Tests/TestResults
+>>>>>>> 3bc0d5e (Update auth-service: Sat 26 Apr 2025 01:19:12 PM CEST. Modified files:)
