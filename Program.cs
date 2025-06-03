@@ -153,9 +153,29 @@ public class Startup
                 Version = "v1",
                 Description = "API documentation for the Auth Service."
             });
-            var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            // Ensure the XML file is correctly located
+            var xmlFile = $"AuthService.xml"; // Use the project name directly
             var xmlPath = System.IO.Path.Combine(AppContext.BaseDirectory, xmlFile);
-            c.IncludeXmlComments(xmlPath);
+            if (System.IO.File.Exists(xmlPath))
+            {
+                c.IncludeXmlComments(xmlPath);
+            }
+            else
+            {
+                // Fallback for when running in a different context (e.g. tests or Docker)
+                // This assumes the XML file is copied to the output directory of the entry assembly
+                var entryAssemblyXmlFile = $"{System.Reflection.Assembly.GetEntryAssembly()?.GetName().Name}.xml";
+                var entryAssemblyXmlPath = System.IO.Path.Combine(AppContext.BaseDirectory, entryAssemblyXmlFile);
+                if (System.IO.File.Exists(entryAssemblyXmlPath))
+                {
+                    c.IncludeXmlComments(entryAssemblyXmlPath);
+                }
+                else
+                {
+                    // Log if XML file is not found in expected locations
+                    Console.WriteLine($"Warning: XML documentation file not found at {xmlPath} or {entryAssemblyXmlPath}. Swagger UI may not display XML comments.");
+                }
+            }
         });
     }
 

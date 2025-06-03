@@ -13,6 +13,9 @@ COPY . .
 # Build and publish the application
 RUN dotnet publish AuthService.csproj -c Release -o out
 
+# Ensure the XML documentation file is copied to the publish output
+RUN cp AuthService.xml out/AuthService.xml
+
 # Stage 2: Runtime
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
