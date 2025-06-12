@@ -158,3 +158,4 @@
 /home/m/development/DatingApp/auth-service/obj/Debug/net8.0/AuthService.genruntimeconfig.cache
 /home/m/development/DatingApp/auth-service/obj/Debug/net8.0/ref/AuthService.dll
 /home/m/development/DatingApp/auth-service/bin/Debug/net8.0/AuthService.xml
+/home/m/development/DatingApp/auth-service/bin/Debug/net8.0/AuthService.Tests/obj/Release/net8.0/AuthService.Tests.sourcelink.json

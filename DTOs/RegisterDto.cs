@@ -7,5 +7,6 @@ namespace AuthService.DTOs
         public string Password { get; set; }
         public string PhoneNumber { get; set; }
         public string ConfirmPassword { get; set; }
+        public string ProfilePicture { get; set; }
     }
 }

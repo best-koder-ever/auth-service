@@ -39,7 +39,8 @@ namespace AuthService.Services
             {
                 UserName = dto.Username,
                 Email = dto.Email,
-                PhoneNumber = dto.PhoneNumber
+                PhoneNumber = dto.PhoneNumber,
+                ProfilePicture = dto.ProfilePicture // Map profile picture from DTO
             };
             var result = await _userManager.CreateAsync(user, dto.Password);
             if (!result.Succeeded)
@@ -142,7 +143,8 @@ namespace AuthService.Services
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(JwtRegisteredClaimNames.Aud, _configuration["Jwt:Audience"] ?? "MyTinderCloneApp")
             };
 
             var rsa = _keyProvider.GetPrivateKey();
@@ -152,13 +154,15 @@ namespace AuthService.Services
                 SecurityAlgorithms.RsaSha256
             );
 
+            var audience = _configuration["Jwt:Audience"] ?? "MyTinderCloneApp";
             var token = new JwtSecurityToken(
                 issuer: _configuration["Jwt:Issuer"],
-                audience: _configuration["Jwt:Audience"],
+                audience: audience,
                 claims: claims,
                 expires: DateTime.UtcNow.AddHours(1),
                 signingCredentials: signingCredentials
             );
+            Console.WriteLine($"JWT audience used: {audience}");
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
