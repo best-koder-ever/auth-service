@@ -23,13 +23,25 @@ namespace AuthService.Tests.IntegrationTests
         public async Task LoginAsync_ShouldReturnToken_WhenCredentialsAreValid()
         {
             // Arrange
+            // First, register a user
+            var uniqueEmail = $"test_{Guid.NewGuid()}@example.com";
+            var uniqueUsername = $"testuser_{Guid.NewGuid()}";
+            var registerDto = new RegisterDto
+            {
+                Username = uniqueUsername,
+                Email = uniqueEmail,
+                Password = "password123",
+                ConfirmPassword = "password123"
+            };
+            var registerResponse = await _client.PostAsJsonAsync("/api/auth/register", registerDto);
+            registerResponse.IsSuccessStatusCode.Should().BeTrue();
+
+            // Now, login with the same credentials
             var loginDto = new LoginDto
             {
-                Email = "test@example.com",
+                Email = uniqueEmail,
                 Password = "password123"
             };
-
-            // Act
             var response = await _client.PostAsJsonAsync("/api/auth/login", loginDto);
 
             // Assert

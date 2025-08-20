@@ -45,10 +45,11 @@ namespace AuthService.Tests.IntegrationTests
         public async Task RegisterAsync_ShouldReturnBadRequest_WhenEmailAlreadyExists()
         {
             // Arrange
+            var uniqueEmail = $"test_{Guid.NewGuid()}@example.com";
             var existingUserDto = new RegisterDto
             {
                 Username = "existinguser",
-                Email = "test@example.com",
+                Email = uniqueEmail,
                 Password = "Password123!",
                 ConfirmPassword = "Password123!"
             };
@@ -59,7 +60,7 @@ namespace AuthService.Tests.IntegrationTests
             var registerDto = new RegisterDto
             {
                 Username = "newuser",
-                Email = "test@example.com", // Same email as the existing user
+                Email = uniqueEmail, // Same email as the existing user
                 Password = "Password123!",
                 ConfirmPassword = "Password123!"
             };

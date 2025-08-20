@@ -1,171 +1,88 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TestRun id="bb14b343-475b-4c9f-9879-71ad8f668b84" name="@fastdev 2025-04-26 11:52:46" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
-  <Times creation="2025-04-26T11:52:46.6893227+02:00" queuing="2025-04-26T11:52:46.6893228+02:00" start="2025-04-26T11:52:44.7142078+02:00" finish="2025-04-26T11:52:47.2943740+02:00" />
-  <TestSettings name="default" id="71170c35-e288-42f6-a4ac-c424c9827cfa">
-    <Deployment runDeploymentRoot="_fastdev_2025-04-26_11_52_46" />
+<TestRun id="ad1c9d63-cea4-4874-aaf0-76b2890bcbbe" name="@fastdev 2025-07-25 17:53:48" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2025-07-25T17:53:48.9629265+02:00" queuing="2025-07-25T17:53:48.9629266+02:00" start="2025-07-25T17:53:46.9575994+02:00" finish="2025-07-25T17:53:49.7958775+02:00" />
+  <TestSettings name="default" id="c78bd1dc-a07a-4b44-818d-370637ee52f2">
+    <Deployment runDeploymentRoot="_fastdev_2025-07-25_17_53_48" />
   </TestSettings>
   <Results>
-    <UnitTestResult executionId="f1dc038f-e946-49b7-acce-7d82b42a4728" testId="f9eb9ca7-65e0-4684-fe46-79864fdd0d7f" testName="AuthService.Tests.IntegrationTests.AuthServiceRegistrationTests.RegisterAsync_ShouldReturnBadRequest_WhenEmailAlreadyExists" computerName="fastdev" duration="00:00:00.1156711" startTime="2025-04-26T11:52:47.0772245+02:00" endTime="2025-04-26T11:52:47.1932050+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f1dc038f-e946-49b7-acce-7d82b42a4728" />
-    <UnitTestResult executionId="7d1cdc1f-da13-433d-b70a-2b5a2d107071" testId="d4944854-b93a-7cbc-bc05-bea6dfcefd84" testName="AuthService.Tests.IntegrationTests.AuthServiceRegistrationTests.RegisterAsync_ShouldCreateUser_WhenDataIsValid" computerName="fastdev" duration="00:00:01.7331574" startTime="2025-04-26T11:52:45.3401727+02:00" endTime="2025-04-26T11:52:47.0765905+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7d1cdc1f-da13-433d-b70a-2b5a2d107071" />
-    <UnitTestResult executionId="84a5baf1-8485-4258-9fad-971f33f2bbe4" testId="ba7f2641-9178-533a-2be7-8870ad325188" testName="AuthService.Tests.UnitTests.AuthServiceTests.LoginAsync_ShouldThrowUnauthorizedAccessException_WhenCredentialsAreInvalid" computerName="fastdev" duration="00:00:00.0229000" startTime="2025-04-26T11:52:45.6424481+02:00" endTime="2025-04-26T11:52:45.6640130+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="84a5baf1-8485-4258-9fad-971f33f2bbe4" />
-    <UnitTestResult executionId="99518842-3bb7-4580-b0f0-62688bd82e63" testId="ecad8ccf-6a94-e493-6745-d2b4993e1207" testName="AuthService.Tests.UnitTests.AuthServiceTests.GenerateJwtToken_ShouldReturnValidToken_WhenPrivateKeyIsMocked" computerName="fastdev" duration="00:00:00.2680484" startTime="2025-04-26T11:52:45.3400601+02:00" endTime="2025-04-26T11:52:45.6181870+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="99518842-3bb7-4580-b0f0-62688bd82e63" />
-    <UnitTestResult executionId="0074169c-489e-40a8-98b6-4d7a523ac137" testId="8439c253-b70a-13aa-b8ae-3d06c223d26c" testName="AuthService.Tests.IntegrationTests.AuthServiceIntegrationTests.LoginAsync_ShouldReturnToken_WhenCredentialsAreValid" computerName="fastdev" duration="00:00:00.0075991" startTime="2025-04-26T11:52:46.5366938+02:00" endTime="2025-04-26T11:52:46.5445940+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0074169c-489e-40a8-98b6-4d7a523ac137">
-      <Output>
-        <ErrorInfo>
-          <Message>Expected response.IsSuccessStatusCode to be True, but found False.</Message>
-          <StackTrace>   at FluentAssertions.Execution.LateBoundTestFramework.Throw(String message)
-   at FluentAssertions.Execution.DefaultAssertionStrategy.HandleFailure(String message)
-   at FluentAssertions.Execution.AssertionScope.AddPreFormattedFailure(String formattedFailureMessage)
-   at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
-   at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
-   at FluentAssertions.Execution.AssertionChain.FailWith(String message, Object[] args)
-   at FluentAssertions.Primitives.BooleanAssertions`1.BeTrue(String because, Object[] becauseArgs)
-   at AuthService.Tests.IntegrationTests.AuthServiceIntegrationTests.LoginAsync_ShouldReturnToken_WhenCredentialsAreValid() in /home/m/development/DatingApp/auth-service/AuthService.Tests/Tests/IntegrationTests/AuthServiceIntegrationTests.cs:line 36
---- End of stack trace from previous location ---</StackTrace>
-        </ErrorInfo>
-      </Output>
-    </UnitTestResult>
-    <UnitTestResult executionId="b8beb85b-d3eb-43da-a181-b12bc41c0489" testId="29e4b15c-a30e-aed2-7c69-a253b23fd5cb" testName="AuthService.Tests.IntegrationTests.AuthServiceTokenValidationTests.ValidateToken_ShouldReturnOk_WhenTokenIsValid" computerName="fastdev" duration="00:00:01.0550731" startTime="2025-04-26T11:52:45.3382032+02:00" endTime="2025-04-26T11:52:46.4037518+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b8beb85b-d3eb-43da-a181-b12bc41c0489">
-      <Output>
-        <ErrorInfo>
-          <Message>Expected response.IsSuccessStatusCode to be True, but found False.</Message>
-          <StackTrace>   at FluentAssertions.Execution.LateBoundTestFramework.Throw(String message)
-   at FluentAssertions.Execution.DefaultAssertionStrategy.HandleFailure(String message)
-   at FluentAssertions.Execution.AssertionScope.AddPreFormattedFailure(String formattedFailureMessage)
-   at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
-   at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
-   at FluentAssertions.Execution.AssertionChain.FailWith(String message, Object[] args)
-   at FluentAssertions.Primitives.BooleanAssertions`1.BeTrue(String because, Object[] becauseArgs)
-   at AuthService.Tests.IntegrationTests.AuthServiceTokenValidationTests.ValidateToken_ShouldReturnOk_WhenTokenIsValid() in /home/m/development/DatingApp/auth-service/AuthService.Tests/Tests/IntegrationTests/AuthServiceTokenValidationTests.cs:line 49
---- End of stack trace from previous location ---</StackTrace>
-        </ErrorInfo>
-      </Output>
-    </UnitTestResult>
-    <UnitTestResult executionId="9d1ed521-b442-490d-ac23-f020b8120faf" testId="262e833b-2d68-c921-e3d8-2629f30c928c" testName="AuthService.Tests.UnitTests.AuthServiceTests.LoginAsync_ShouldReturnToken_WhenCredentialsAreValid" computerName="fastdev" duration="00:00:00.0225581" startTime="2025-04-26T11:52:45.6355592+02:00" endTime="2025-04-26T11:52:45.6410284+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9d1ed521-b442-490d-ac23-f020b8120faf" />
-    <UnitTestResult executionId="bfe0384a-a6e2-4a6e-a698-0ea579263f0f" testId="881cf5f8-0024-2c5c-2a49-74df150f2eda" testName="AuthService.Tests.IntegrationTests.AuthServiceIntegrationTests.LoginAsync_ShouldReturnUnauthorized_WhenCredentialsAreInvalid" computerName="fastdev" duration="00:00:01.1930985" startTime="2025-04-26T11:52:45.3401362+02:00" endTime="2025-04-26T11:52:46.5363263+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="bfe0384a-a6e2-4a6e-a698-0ea579263f0f" />
-    <UnitTestResult executionId="d837397a-561d-40e4-96c9-f29cb1a97f2a" testId="0669a221-5dd7-d122-de95-207b44e6444b" testName="AuthService.Tests.IntegrationTests.AuthServiceTokenValidationTests.ValidateToken_ShouldReturnUnauthorized_WhenTokenIsInvalid" computerName="fastdev" duration="00:00:00.0101743" startTime="2025-04-26T11:52:46.4096794+02:00" endTime="2025-04-26T11:52:46.4157153+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d837397a-561d-40e4-96c9-f29cb1a97f2a">
-      <Output>
-        <ErrorInfo>
-          <Message>Expected response.StatusCode to be HttpStatusCode.Unauthorized {value: 401}, but found HttpStatusCode.UnsupportedMediaType {value: 415}.</Message>
-          <StackTrace>   at FluentAssertions.Execution.LateBoundTestFramework.Throw(String message)
-   at FluentAssertions.Execution.DefaultAssertionStrategy.HandleFailure(String message)
-   at FluentAssertions.Execution.AssertionScope.AddPreFormattedFailure(String formattedFailureMessage)
-   at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
-   at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
-   at FluentAssertions.Execution.AssertionChain.FailWith(String message, Object[] args)
-   at FluentAssertions.Primitives.EnumAssertions`2.Be(TEnum expected, String because, Object[] becauseArgs)
-   at AuthService.Tests.IntegrationTests.AuthServiceTokenValidationTests.ValidateToken_ShouldReturnUnauthorized_WhenTokenIsInvalid() in /home/m/development/DatingApp/auth-service/AuthService.Tests/Tests/IntegrationTests/AuthServiceTokenValidationTests.cs:line 65
---- End of stack trace from previous location ---</StackTrace>
-        </ErrorInfo>
-      </Output>
-    </UnitTestResult>
+    <UnitTestResult executionId="e20a51b8-a46a-414e-809b-fe029341f134" testId="8439c253-b70a-13aa-b8ae-3d06c223d26c" testName="AuthService.Tests.IntegrationTests.AuthServiceIntegrationTests.LoginAsync_ShouldReturnToken_WhenCredentialsAreValid" computerName="fastdev" duration="00:00:00.6286898" startTime="2025-07-25T17:53:49.0458172+02:00" endTime="2025-07-25T17:53:49.6744069+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e20a51b8-a46a-414e-809b-fe029341f134" />
+    <UnitTestResult executionId="45ae1d2e-1ff5-4a67-b2c9-9b11f0c60684" testId="0669a221-5dd7-d122-de95-207b44e6444b" testName="AuthService.Tests.IntegrationTests.AuthServiceTokenValidationTests.ValidateToken_ShouldReturnUnauthorized_WhenTokenIsInvalid" computerName="fastdev" duration="00:00:00.0383283" startTime="2025-07-25T17:53:49.0124131+02:00" endTime="2025-07-25T17:53:49.0508361+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="45ae1d2e-1ff5-4a67-b2c9-9b11f0c60684" />
+    <UnitTestResult executionId="9e5f6dea-7052-42de-879d-82a5ec51d9c3" testId="262e833b-2d68-c921-e3d8-2629f30c928c" testName="AuthService.Tests.UnitTests.AuthServiceTests.LoginAsync_ShouldReturnToken_WhenCredentialsAreValid" computerName="fastdev" duration="00:00:00.0312124" startTime="2025-07-25T17:53:47.8769152+02:00" endTime="2025-07-25T17:53:47.8805819+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9e5f6dea-7052-42de-879d-82a5ec51d9c3" />
+    <UnitTestResult executionId="58941f4b-63d2-4795-88ce-41c7c3836992" testId="ba7f2641-9178-533a-2be7-8870ad325188" testName="AuthService.Tests.UnitTests.AuthServiceTests.LoginAsync_ShouldThrowUnauthorizedAccessException_WhenCredentialsAreInvalid" computerName="fastdev" duration="00:00:00.0504396" startTime="2025-07-25T17:53:47.8923589+02:00" endTime="2025-07-25T17:53:47.9311325+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="58941f4b-63d2-4795-88ce-41c7c3836992" />
+    <UnitTestResult executionId="aa99a206-3752-4f18-8d84-da54a5fe7d6d" testId="f9eb9ca7-65e0-4684-fe46-79864fdd0d7f" testName="AuthService.Tests.IntegrationTests.AuthServiceRegistrationTests.RegisterAsync_ShouldReturnBadRequest_WhenEmailAlreadyExists" computerName="fastdev" duration="00:00:00.1204564" startTime="2025-07-25T17:53:49.2865286+02:00" endTime="2025-07-25T17:53:49.4072496+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="aa99a206-3752-4f18-8d84-da54a5fe7d6d" />
+    <UnitTestResult executionId="a646726b-e4bf-4147-ad00-e19ad14461f4" testId="ecad8ccf-6a94-e493-6745-d2b4993e1207" testName="AuthService.Tests.UnitTests.AuthServiceTests.GenerateJwtToken_ShouldReturnValidToken_WhenPrivateKeyIsMocked" computerName="fastdev" duration="00:00:00.2385754" startTime="2025-07-25T17:53:47.6030155+02:00" endTime="2025-07-25T17:53:47.8489570+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a646726b-e4bf-4147-ad00-e19ad14461f4" />
+    <UnitTestResult executionId="605650d0-58e3-4107-a9b7-9942bd592c58" testId="d4944854-b93a-7cbc-bc05-bea6dfcefd84" testName="AuthService.Tests.IntegrationTests.AuthServiceRegistrationTests.RegisterAsync_ShouldCreateUser_WhenDataIsValid" computerName="fastdev" duration="00:00:01.6818502" startTime="2025-07-25T17:53:47.6029158+02:00" endTime="2025-07-25T17:53:49.2861208+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="605650d0-58e3-4107-a9b7-9942bd592c58" />
+    <UnitTestResult executionId="2872c389-b0b6-416f-a15a-97cb24ef7437" testId="29e4b15c-a30e-aed2-7c69-a253b23fd5cb" testName="AuthService.Tests.IntegrationTests.AuthServiceTokenValidationTests.ValidateToken_ShouldReturnOk_WhenTokenIsValid" computerName="fastdev" duration="00:00:01.4033601" startTime="2025-07-25T17:53:47.6013737+02:00" endTime="2025-07-25T17:53:49.0104514+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2872c389-b0b6-416f-a15a-97cb24ef7437" />
+    <UnitTestResult executionId="05756640-dbba-4f01-9c6c-1918cc694028" testId="2086eb0e-57e6-40f6-2533-82d5f19ffe7c" testName="AuthService.Tests.IntegrationTests.AuthServiceIntegrationTests.LoginAsync_ShouldReturnUnauthorized_WhenUserDoesNotExist" computerName="fastdev" duration="00:00:01.4033391" startTime="2025-07-25T17:53:47.6029827+02:00" endTime="2025-07-25T17:53:49.0105631+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="05756640-dbba-4f01-9c6c-1918cc694028" />
+    <UnitTestResult executionId="1bf0d013-536f-47d5-98ce-ab5556d8268d" testId="881cf5f8-0024-2c5c-2a49-74df150f2eda" testName="AuthService.Tests.IntegrationTests.AuthServiceIntegrationTests.LoginAsync_ShouldReturnUnauthorized_WhenCredentialsAreInvalid" computerName="fastdev" duration="00:00:00.0327588" startTime="2025-07-25T17:53:49.0124899+02:00" endTime="2025-07-25T17:53:49.0453038+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1bf0d013-536f-47d5-98ce-ab5556d8268d" />
   </Results>
   <TestDefinitions>
-    <UnitTest name="AuthService.Tests.UnitTests.AuthServiceTests.GenerateJwtToken_ShouldReturnValidToken_WhenPrivateKeyIsMocked" storage="/home/m/development/datingapp/auth-service/authservice.tests/bin/release/net8.0/authservice.tests.dll" id="ecad8ccf-6a94-e493-6745-d2b4993e1207">
-      <Execution id="99518842-3bb7-4580-b0f0-62688bd82e63" />
-      <TestMethod codeBase="/home/m/development/DatingApp/auth-service/AuthService.Tests/bin/Release/net8.0/AuthService.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="AuthService.Tests.UnitTests.AuthServiceTests" name="GenerateJwtToken_ShouldReturnValidToken_WhenPrivateKeyIsMocked" />
+    <UnitTest name="AuthService.Tests.UnitTests.AuthServiceTests.GenerateJwtToken_ShouldReturnValidToken_WhenPrivateKeyIsMocked" storage="/home/m/development/datingapp/auth-service/src/authservice.tests/bin/debug/net8.0/authservice.tests.dll" id="ecad8ccf-6a94-e493-6745-d2b4993e1207">
+      <Execution id="a646726b-e4bf-4147-ad00-e19ad14461f4" />
+      <TestMethod codeBase="/home/m/development/DatingApp/auth-service/src/AuthService.Tests/bin/Debug/net8.0/AuthService.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="AuthService.Tests.UnitTests.AuthServiceTests" name="GenerateJwtToken_ShouldReturnValidToken_WhenPrivateKeyIsMocked" />
     </UnitTest>
-    <UnitTest name="AuthService.Tests.IntegrationTests.AuthServiceRegistrationTests.RegisterAsync_ShouldReturnBadRequest_WhenEmailAlreadyExists" storage="/home/m/development/datingapp/auth-service/authservice.tests/bin/release/net8.0/authservice.tests.dll" id="f9eb9ca7-65e0-4684-fe46-79864fdd0d7f">
-      <Execution id="f1dc038f-e946-49b7-acce-7d82b42a4728" />
-      <TestMethod codeBase="/home/m/development/DatingApp/auth-service/AuthService.Tests/bin/Release/net8.0/AuthService.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="AuthService.Tests.IntegrationTests.AuthServiceRegistrationTests" name="RegisterAsync_ShouldReturnBadRequest_WhenEmailAlreadyExists" />
+    <UnitTest name="AuthService.Tests.IntegrationTests.AuthServiceRegistrationTests.RegisterAsync_ShouldReturnBadRequest_WhenEmailAlreadyExists" storage="/home/m/development/datingapp/auth-service/src/authservice.tests/bin/debug/net8.0/authservice.tests.dll" id="f9eb9ca7-65e0-4684-fe46-79864fdd0d7f">
+      <Execution id="aa99a206-3752-4f18-8d84-da54a5fe7d6d" />
+      <TestMethod codeBase="/home/m/development/DatingApp/auth-service/src/AuthService.Tests/bin/Debug/net8.0/AuthService.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="AuthService.Tests.IntegrationTests.AuthServiceRegistrationTests" name="RegisterAsync_ShouldReturnBadRequest_WhenEmailAlreadyExists" />
     </UnitTest>
-    <UnitTest name="AuthService.Tests.IntegrationTests.AuthServiceIntegrationTests.LoginAsync_ShouldReturnToken_WhenCredentialsAreValid" storage="/home/m/development/datingapp/auth-service/authservice.tests/bin/release/net8.0/authservice.tests.dll" id="8439c253-b70a-13aa-b8ae-3d06c223d26c">
-      <Execution id="0074169c-489e-40a8-98b6-4d7a523ac137" />
-      <TestMethod codeBase="/home/m/development/DatingApp/auth-service/AuthService.Tests/bin/Release/net8.0/AuthService.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="AuthService.Tests.IntegrationTests.AuthServiceIntegrationTests" name="LoginAsync_ShouldReturnToken_WhenCredentialsAreValid" />
+    <UnitTest name="AuthService.Tests.IntegrationTests.AuthServiceIntegrationTests.LoginAsync_ShouldReturnToken_WhenCredentialsAreValid" storage="/home/m/development/datingapp/auth-service/src/authservice.tests/bin/debug/net8.0/authservice.tests.dll" id="8439c253-b70a-13aa-b8ae-3d06c223d26c">
+      <Execution id="e20a51b8-a46a-414e-809b-fe029341f134" />
+      <TestMethod codeBase="/home/m/development/DatingApp/auth-service/src/AuthService.Tests/bin/Debug/net8.0/AuthService.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="AuthService.Tests.IntegrationTests.AuthServiceIntegrationTests" name="LoginAsync_ShouldReturnToken_WhenCredentialsAreValid" />
     </UnitTest>
-    <UnitTest name="AuthService.Tests.UnitTests.AuthServiceTests.LoginAsync_ShouldReturnToken_WhenCredentialsAreValid" storage="/home/m/development/datingapp/auth-service/authservice.tests/bin/release/net8.0/authservice.tests.dll" id="262e833b-2d68-c921-e3d8-2629f30c928c">
-      <Execution id="9d1ed521-b442-490d-ac23-f020b8120faf" />
-      <TestMethod codeBase="/home/m/development/DatingApp/auth-service/AuthService.Tests/bin/Release/net8.0/AuthService.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="AuthService.Tests.UnitTests.AuthServiceTests" name="LoginAsync_ShouldReturnToken_WhenCredentialsAreValid" />
+    <UnitTest name="AuthService.Tests.UnitTests.AuthServiceTests.LoginAsync_ShouldReturnToken_WhenCredentialsAreValid" storage="/home/m/development/datingapp/auth-service/src/authservice.tests/bin/debug/net8.0/authservice.tests.dll" id="262e833b-2d68-c921-e3d8-2629f30c928c">
+      <Execution id="9e5f6dea-7052-42de-879d-82a5ec51d9c3" />
+      <TestMethod codeBase="/home/m/development/DatingApp/auth-service/src/AuthService.Tests/bin/Debug/net8.0/AuthService.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="AuthService.Tests.UnitTests.AuthServiceTests" name="LoginAsync_ShouldReturnToken_WhenCredentialsAreValid" />
     </UnitTest>
-    <UnitTest name="AuthService.Tests.IntegrationTests.AuthServiceTokenValidationTests.ValidateToken_ShouldReturnUnauthorized_WhenTokenIsInvalid" storage="/home/m/development/datingapp/auth-service/authservice.tests/bin/release/net8.0/authservice.tests.dll" id="0669a221-5dd7-d122-de95-207b44e6444b">
-      <Execution id="d837397a-561d-40e4-96c9-f29cb1a97f2a" />
-      <TestMethod codeBase="/home/m/development/DatingApp/auth-service/AuthService.Tests/bin/Release/net8.0/AuthService.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="AuthService.Tests.IntegrationTests.AuthServiceTokenValidationTests" name="ValidateToken_ShouldReturnUnauthorized_WhenTokenIsInvalid" />
+    <UnitTest name="AuthService.Tests.IntegrationTests.AuthServiceTokenValidationTests.ValidateToken_ShouldReturnUnauthorized_WhenTokenIsInvalid" storage="/home/m/development/datingapp/auth-service/src/authservice.tests/bin/debug/net8.0/authservice.tests.dll" id="0669a221-5dd7-d122-de95-207b44e6444b">
+      <Execution id="45ae1d2e-1ff5-4a67-b2c9-9b11f0c60684" />
+      <TestMethod codeBase="/home/m/development/DatingApp/auth-service/src/AuthService.Tests/bin/Debug/net8.0/AuthService.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="AuthService.Tests.IntegrationTests.AuthServiceTokenValidationTests" name="ValidateToken_ShouldReturnUnauthorized_WhenTokenIsInvalid" />
     </UnitTest>
-    <UnitTest name="AuthService.Tests.IntegrationTests.AuthServiceIntegrationTests.LoginAsync_ShouldReturnUnauthorized_WhenCredentialsAreInvalid" storage="/home/m/development/datingapp/auth-service/authservice.tests/bin/release/net8.0/authservice.tests.dll" id="881cf5f8-0024-2c5c-2a49-74df150f2eda">
-      <Execution id="bfe0384a-a6e2-4a6e-a698-0ea579263f0f" />
-      <TestMethod codeBase="/home/m/development/DatingApp/auth-service/AuthService.Tests/bin/Release/net8.0/AuthService.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="AuthService.Tests.IntegrationTests.AuthServiceIntegrationTests" name="LoginAsync_ShouldReturnUnauthorized_WhenCredentialsAreInvalid" />
+    <UnitTest name="AuthService.Tests.IntegrationTests.AuthServiceIntegrationTests.LoginAsync_ShouldReturnUnauthorized_WhenCredentialsAreInvalid" storage="/home/m/development/datingapp/auth-service/src/authservice.tests/bin/debug/net8.0/authservice.tests.dll" id="881cf5f8-0024-2c5c-2a49-74df150f2eda">
+      <Execution id="1bf0d013-536f-47d5-98ce-ab5556d8268d" />
+      <TestMethod codeBase="/home/m/development/DatingApp/auth-service/src/AuthService.Tests/bin/Debug/net8.0/AuthService.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="AuthService.Tests.IntegrationTests.AuthServiceIntegrationTests" name="LoginAsync_ShouldReturnUnauthorized_WhenCredentialsAreInvalid" />
     </UnitTest>
-    <UnitTest name="AuthService.Tests.UnitTests.AuthServiceTests.LoginAsync_ShouldThrowUnauthorizedAccessException_WhenCredentialsAreInvalid" storage="/home/m/development/datingapp/auth-service/authservice.tests/bin/release/net8.0/authservice.tests.dll" id="ba7f2641-9178-533a-2be7-8870ad325188">
-      <Execution id="84a5baf1-8485-4258-9fad-971f33f2bbe4" />
-      <TestMethod codeBase="/home/m/development/DatingApp/auth-service/AuthService.Tests/bin/Release/net8.0/AuthService.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="AuthService.Tests.UnitTests.AuthServiceTests" name="LoginAsync_ShouldThrowUnauthorizedAccessException_WhenCredentialsAreInvalid" />
+    <UnitTest name="AuthService.Tests.IntegrationTests.AuthServiceIntegrationTests.LoginAsync_ShouldReturnUnauthorized_WhenUserDoesNotExist" storage="/home/m/development/datingapp/auth-service/src/authservice.tests/bin/debug/net8.0/authservice.tests.dll" id="2086eb0e-57e6-40f6-2533-82d5f19ffe7c">
+      <Execution id="05756640-dbba-4f01-9c6c-1918cc694028" />
+      <TestMethod codeBase="/home/m/development/DatingApp/auth-service/src/AuthService.Tests/bin/Debug/net8.0/AuthService.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="AuthService.Tests.IntegrationTests.AuthServiceIntegrationTests" name="LoginAsync_ShouldReturnUnauthorized_WhenUserDoesNotExist" />
     </UnitTest>
-    <UnitTest name="AuthService.Tests.IntegrationTests.AuthServiceTokenValidationTests.ValidateToken_ShouldReturnOk_WhenTokenIsValid" storage="/home/m/development/datingapp/auth-service/authservice.tests/bin/release/net8.0/authservice.tests.dll" id="29e4b15c-a30e-aed2-7c69-a253b23fd5cb">
-      <Execution id="b8beb85b-d3eb-43da-a181-b12bc41c0489" />
-      <TestMethod codeBase="/home/m/development/DatingApp/auth-service/AuthService.Tests/bin/Release/net8.0/AuthService.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="AuthService.Tests.IntegrationTests.AuthServiceTokenValidationTests" name="ValidateToken_ShouldReturnOk_WhenTokenIsValid" />
+    <UnitTest name="AuthService.Tests.UnitTests.AuthServiceTests.LoginAsync_ShouldThrowUnauthorizedAccessException_WhenCredentialsAreInvalid" storage="/home/m/development/datingapp/auth-service/src/authservice.tests/bin/debug/net8.0/authservice.tests.dll" id="ba7f2641-9178-533a-2be7-8870ad325188">
+      <Execution id="58941f4b-63d2-4795-88ce-41c7c3836992" />
+      <TestMethod codeBase="/home/m/development/DatingApp/auth-service/src/AuthService.Tests/bin/Debug/net8.0/AuthService.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="AuthService.Tests.UnitTests.AuthServiceTests" name="LoginAsync_ShouldThrowUnauthorizedAccessException_WhenCredentialsAreInvalid" />
     </UnitTest>
-    <UnitTest name="AuthService.Tests.IntegrationTests.AuthServiceRegistrationTests.RegisterAsync_ShouldCreateUser_WhenDataIsValid" storage="/home/m/development/datingapp/auth-service/authservice.tests/bin/release/net8.0/authservice.tests.dll" id="d4944854-b93a-7cbc-bc05-bea6dfcefd84">
-      <Execution id="7d1cdc1f-da13-433d-b70a-2b5a2d107071" />
-      <TestMethod codeBase="/home/m/development/DatingApp/auth-service/AuthService.Tests/bin/Release/net8.0/AuthService.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="AuthService.Tests.IntegrationTests.AuthServiceRegistrationTests" name="RegisterAsync_ShouldCreateUser_WhenDataIsValid" />
+    <UnitTest name="AuthService.Tests.IntegrationTests.AuthServiceTokenValidationTests.ValidateToken_ShouldReturnOk_WhenTokenIsValid" storage="/home/m/development/datingapp/auth-service/src/authservice.tests/bin/debug/net8.0/authservice.tests.dll" id="29e4b15c-a30e-aed2-7c69-a253b23fd5cb">
+      <Execution id="2872c389-b0b6-416f-a15a-97cb24ef7437" />
+      <TestMethod codeBase="/home/m/development/DatingApp/auth-service/src/AuthService.Tests/bin/Debug/net8.0/AuthService.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="AuthService.Tests.IntegrationTests.AuthServiceTokenValidationTests" name="ValidateToken_ShouldReturnOk_WhenTokenIsValid" />
+    </UnitTest>
+    <UnitTest name="AuthService.Tests.IntegrationTests.AuthServiceRegistrationTests.RegisterAsync_ShouldCreateUser_WhenDataIsValid" storage="/home/m/development/datingapp/auth-service/src/authservice.tests/bin/debug/net8.0/authservice.tests.dll" id="d4944854-b93a-7cbc-bc05-bea6dfcefd84">
+      <Execution id="605650d0-58e3-4107-a9b7-9942bd592c58" />
+      <TestMethod codeBase="/home/m/development/DatingApp/auth-service/src/AuthService.Tests/bin/Debug/net8.0/AuthService.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="AuthService.Tests.IntegrationTests.AuthServiceRegistrationTests" name="RegisterAsync_ShouldCreateUser_WhenDataIsValid" />
     </UnitTest>
   </TestDefinitions>
   <TestEntries>
-    <TestEntry testId="f9eb9ca7-65e0-4684-fe46-79864fdd0d7f" executionId="f1dc038f-e946-49b7-acce-7d82b42a4728" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="d4944854-b93a-7cbc-bc05-bea6dfcefd84" executionId="7d1cdc1f-da13-433d-b70a-2b5a2d107071" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="ba7f2641-9178-533a-2be7-8870ad325188" executionId="84a5baf1-8485-4258-9fad-971f33f2bbe4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="ecad8ccf-6a94-e493-6745-d2b4993e1207" executionId="99518842-3bb7-4580-b0f0-62688bd82e63" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="8439c253-b70a-13aa-b8ae-3d06c223d26c" executionId="0074169c-489e-40a8-98b6-4d7a523ac137" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="29e4b15c-a30e-aed2-7c69-a253b23fd5cb" executionId="b8beb85b-d3eb-43da-a181-b12bc41c0489" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="262e833b-2d68-c921-e3d8-2629f30c928c" executionId="9d1ed521-b442-490d-ac23-f020b8120faf" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="881cf5f8-0024-2c5c-2a49-74df150f2eda" executionId="bfe0384a-a6e2-4a6e-a698-0ea579263f0f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="0669a221-5dd7-d122-de95-207b44e6444b" executionId="d837397a-561d-40e4-96c9-f29cb1a97f2a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8439c253-b70a-13aa-b8ae-3d06c223d26c" executionId="e20a51b8-a46a-414e-809b-fe029341f134" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0669a221-5dd7-d122-de95-207b44e6444b" executionId="45ae1d2e-1ff5-4a67-b2c9-9b11f0c60684" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="262e833b-2d68-c921-e3d8-2629f30c928c" executionId="9e5f6dea-7052-42de-879d-82a5ec51d9c3" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ba7f2641-9178-533a-2be7-8870ad325188" executionId="58941f4b-63d2-4795-88ce-41c7c3836992" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f9eb9ca7-65e0-4684-fe46-79864fdd0d7f" executionId="aa99a206-3752-4f18-8d84-da54a5fe7d6d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ecad8ccf-6a94-e493-6745-d2b4993e1207" executionId="a646726b-e4bf-4147-ad00-e19ad14461f4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d4944854-b93a-7cbc-bc05-bea6dfcefd84" executionId="605650d0-58e3-4107-a9b7-9942bd592c58" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="29e4b15c-a30e-aed2-7c69-a253b23fd5cb" executionId="2872c389-b0b6-416f-a15a-97cb24ef7437" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2086eb0e-57e6-40f6-2533-82d5f19ffe7c" executionId="05756640-dbba-4f01-9c6c-1918cc694028" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="881cf5f8-0024-2c5c-2a49-74df150f2eda" executionId="1bf0d013-536f-47d5-98ce-ab5556d8268d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
   </TestEntries>
   <TestLists>
     <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
     <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
   </TestLists>
-  <ResultSummary outcome="Failed">
-    <Counters total="9" executed="9" passed="6" failed="3" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+  <ResultSummary outcome="Completed">
+    <Counters total="10" executed="10" passed="10" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
     <Output>
-      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.0.2+dd36e86129 (64-bit .NET 8.0.15)
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.0+00ab0a9ec4 (64-bit .NET 8.0.17)
 [xUnit.net 00:00:00.10]   Discovering: AuthService.Tests
 [xUnit.net 00:00:00.14]   Discovered:  AuthService.Tests
-[xUnit.net 00:00:00.17]   Starting:    AuthService.Tests
-[xUnit.net 00:00:01.26]       Expected response.IsSuccessStatusCode to be True, but found False.
-[xUnit.net 00:00:01.27]       Stack Trace:
-[xUnit.net 00:00:01.27]            at FluentAssertions.Execution.LateBoundTestFramework.Throw(String message)
-[xUnit.net 00:00:01.27]            at FluentAssertions.Execution.DefaultAssertionStrategy.HandleFailure(String message)
-[xUnit.net 00:00:01.27]            at FluentAssertions.Execution.AssertionScope.AddPreFormattedFailure(String formattedFailureMessage)
-[xUnit.net 00:00:01.27]            at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
-[xUnit.net 00:00:01.27]            at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
-[xUnit.net 00:00:01.27]            at FluentAssertions.Execution.AssertionChain.FailWith(String message, Object[] args)
-[xUnit.net 00:00:01.27]            at FluentAssertions.Primitives.BooleanAssertions`1.BeTrue(String because, Object[] becauseArgs)
-[xUnit.net 00:00:01.27]         /home/m/development/DatingApp/auth-service/AuthService.Tests/Tests/IntegrationTests/AuthServiceTokenValidationTests.cs(49,0): at AuthService.Tests.IntegrationTests.AuthServiceTokenValidationTests.ValidateToken_ShouldReturnOk_WhenTokenIsValid()
-[xUnit.net 00:00:01.27]         --- End of stack trace from previous location ---
-[xUnit.net 00:00:01.27]       Expected response.StatusCode to be HttpStatusCode.Unauthorized {value: 401}, but found HttpStatusCode.UnsupportedMediaType {value: 415}.
-[xUnit.net 00:00:01.27]       Stack Trace:
-[xUnit.net 00:00:01.27]            at FluentAssertions.Execution.LateBoundTestFramework.Throw(String message)
-[xUnit.net 00:00:01.27]            at FluentAssertions.Execution.DefaultAssertionStrategy.HandleFailure(String message)
-[xUnit.net 00:00:01.27]            at FluentAssertions.Execution.AssertionScope.AddPreFormattedFailure(String formattedFailureMessage)
-[xUnit.net 00:00:01.27]            at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
-[xUnit.net 00:00:01.27]            at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
-[xUnit.net 00:00:01.27]            at FluentAssertions.Execution.AssertionChain.FailWith(String message, Object[] args)
-[xUnit.net 00:00:01.27]            at FluentAssertions.Primitives.EnumAssertions`2.Be(TEnum expected, String because, Object[] becauseArgs)
-[xUnit.net 00:00:01.27]         /home/m/development/DatingApp/auth-service/AuthService.Tests/Tests/IntegrationTests/AuthServiceTokenValidationTests.cs(65,0): at AuthService.Tests.IntegrationTests.AuthServiceTokenValidationTests.ValidateToken_ShouldReturnUnauthorized_WhenTokenIsInvalid()
-[xUnit.net 00:00:01.27]         --- End of stack trace from previous location ---
-[xUnit.net 00:00:01.40]       Expected response.IsSuccessStatusCode to be True, but found False.
-[xUnit.net 00:00:01.40]       Stack Trace:
-[xUnit.net 00:00:01.40]            at FluentAssertions.Execution.LateBoundTestFramework.Throw(String message)
-[xUnit.net 00:00:01.40]            at FluentAssertions.Execution.DefaultAssertionStrategy.HandleFailure(String message)
-[xUnit.net 00:00:01.40]            at FluentAssertions.Execution.AssertionScope.AddPreFormattedFailure(String formattedFailureMessage)
-[xUnit.net 00:00:01.40]            at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
-[xUnit.net 00:00:01.40]            at FluentAssertions.Execution.AssertionChain.FailWith(Func`1 getFailureReason)
-[xUnit.net 00:00:01.40]            at FluentAssertions.Execution.AssertionChain.FailWith(String message, Object[] args)
-[xUnit.net 00:00:01.40]            at FluentAssertions.Primitives.BooleanAssertions`1.BeTrue(String because, Object[] becauseArgs)
-[xUnit.net 00:00:01.40]         /home/m/development/DatingApp/auth-service/AuthService.Tests/Tests/IntegrationTests/AuthServiceIntegrationTests.cs(36,0): at AuthService.Tests.IntegrationTests.AuthServiceIntegrationTests.LoginAsync_ShouldReturnToken_WhenCredentialsAreValid()
-[xUnit.net 00:00:01.40]         --- End of stack trace from previous location ---
-[xUnit.net 00:00:02.06]   Finished:    AuthService.Tests
+[xUnit.net 00:00:00.16]   Starting:    AuthService.Tests
+[xUnit.net 00:00:02.26]   Finished:    AuthService.Tests
 </StdOut>
     </Output>
-    <RunInfos>
-      <RunInfo computerName="fastdev" outcome="Error" timestamp="2025-04-26T11:52:46.4065752+02:00">
-        <Text>[xUnit.net 00:00:01.26]     AuthService.Tests.IntegrationTests.AuthServiceTokenValidationTests.ValidateToken_ShouldReturnOk_WhenTokenIsValid [FAIL]</Text>
-      </RunInfo>
-      <RunInfo computerName="fastdev" outcome="Error" timestamp="2025-04-26T11:52:46.4162133+02:00">
-        <Text>[xUnit.net 00:00:01.27]     AuthService.Tests.IntegrationTests.AuthServiceTokenValidationTests.ValidateToken_ShouldReturnUnauthorized_WhenTokenIsInvalid [FAIL]</Text>
-      </RunInfo>
-      <RunInfo computerName="fastdev" outcome="Error" timestamp="2025-04-26T11:52:46.5451266+02:00">
-        <Text>[xUnit.net 00:00:01.40]     AuthService.Tests.IntegrationTests.AuthServiceIntegrationTests.LoginAsync_ShouldReturnToken_WhenCredentialsAreValid [FAIL]</Text>
-      </RunInfo>
-    </RunInfos>
   </ResultSummary>
 </TestRun>
