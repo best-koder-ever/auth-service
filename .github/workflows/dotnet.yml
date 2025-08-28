@@ -1,52 +1,57 @@
-name: Test Runner
+name: 🛡️ Auth Service CI/CD
 on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
   workflow_dispatch:
+
 jobs:
-  test:
+  test-and-build:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+    - name: 🔧 Setup .NET
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '8.0.x'
 
-    - name: Restore dependencies
-      run: dotnet restore /home/m/development/DatingApp/auth-service/auth-service.sln
+    - name: 📦 Restore dependencies
+      run: dotnet restore auth-service.sln
 
-    - name: Build solution
-      run: dotnet build /home/m/development/DatingApp/auth-service/auth-service.sln --no-restore --configuration Release
+    - name: 🏗️ Build solution
+      run: dotnet build auth-service.sln --no-restore --configuration Release
 
-    - name: Run tests with coverage
+    - name: 🧪 Run tests with coverage
       run: |
-        dotnet test /home/m/development/DatingApp/auth-service/AuthService.Tests/AuthService.Tests.csproj --no-build --configuration Release \
+        dotnet test AuthService.Tests/AuthService.Tests.csproj --no-build --configuration Release \
           --collect:"XPlat Code Coverage" \
-          --results-directory /home/m/development/DatingApp/auth-service/AuthService.Tests/TestResults
+          --results-directory TestResults
 
-    - name: Upload coverage report
-      uses: actions/upload-artifact@v3
+    - name: 📊 Upload coverage report
+      uses: actions/upload-artifact@v4
       with:
         name: code-coverage-report
-        path: auth-service/AuthService.Tests/TestResults
+        path: TestResults
 
-    - name: Publish test results
-      uses: actions/upload-artifact@v3
+    - name: 📋 Upload test results
+      uses: actions/upload-artifact@v4
       with:
         name: test-results
-        path: auth-service/AuthService.Tests/TestResults
+        path: TestResults
 
-    - name: Install ReportGenerator
+    - name: 📈 Install ReportGenerator
       run: dotnet tool install -g dotnet-reportgenerator-globaltool
 
-    - name: Generate Coverage Report
+    - name: 📈 Generate Coverage Report
       run: |
-        reportgenerator -reports:auth-service/AuthService.Tests/TestResults/**/*.xml \
-                        -targetdir:auth-service/AuthService.Tests/CoverageReport
+        reportgenerator -reports:TestResults/**/*.xml \
+                        -targetdir:CoverageReport
 
-    - name: Upload Coverage Report
-      uses: actions/upload-artifact@v3
+    - name: 📤 Upload Coverage Report
+      uses: actions/upload-artifact@v4
       with:
         name: coverage-report
-        path: auth-service/AuthService.Tests/CoverageReport
+        path: CoverageReport
