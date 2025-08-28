@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "SDs4LVWCiiEqJ9kCp8e+79ogB61ootdc7L96fA8mB3zKuReItbpdz67E5CNBmytElSyXDKJYeNHZIX5tTWN2pQ==",
+  "dgSpecHash": "V1Q3k4fayOAajhx1/2sKpsMZvn2xErXAwqG+fvBRG9nRqRvB6foJqeM9E2GdrtYIHrz1hR2AyWwe1aJgDr9uGw==",
   "success": true,
   "projectFilePath": "/home/m/development/DatingApp/auth-service/AuthService.csproj",
   "expectedPackageFiles": [
