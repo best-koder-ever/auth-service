@@ -60,7 +60,7 @@ public class Startup
             .WriteTo.Seq("http://seq:5341") // Log to Seq
             .WriteTo.GrafanaLoki("http://loki:3100", labels: new[]
             {
-                new LokiLabel { Key = "app", Value = "auth-service" },
+                new LokiLabel { Key = "app", Value = "AuthService" },
                 new LokiLabel { Key = "environment", Value = "development" }
             })
             .CreateLogger();

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "V1Q3k4fayOAajhx1/2sKpsMZvn2xErXAwqG+fvBRG9nRqRvB6foJqeM9E2GdrtYIHrz1hR2AyWwe1aJgDr9uGw==",
+  "dgSpecHash": "M9e7OkGKObbUly2hDRFjd3jx2dx7sFYEt22TtotUdVCaYlEK8K2W3dtVoFOP2G0ahMuoCgX2GinHOYDGExrCvg==",
   "success": true,
-  "projectFilePath": "/home/m/development/DatingApp/auth-service/AuthService.csproj",
+  "projectFilePath": "/home/m/development/DatingApp/AuthService/AuthService.csproj",
   "expectedPackageFiles": [
     "/home/m/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
     "/home/m/.nuget/packages/microsoft.aspnetcore.authentication.facebook/8.0.5/microsoft.aspnetcore.authentication.facebook.8.0.5.nupkg.sha512",

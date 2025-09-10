@@ -5372,11 +5372,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/m/development/DatingApp/auth-service/AuthService.csproj",
+      "projectUniqueName": "/home/m/development/DatingApp/AuthService/AuthService.csproj",
       "projectName": "AuthService",
-      "projectPath": "/home/m/development/DatingApp/auth-service/AuthService.csproj",
+      "projectPath": "/home/m/development/DatingApp/AuthService/AuthService.csproj",
       "packagesPath": "/home/m/.nuget/packages/",
-      "outputPath": "/home/m/development/DatingApp/auth-service/obj/",
+      "outputPath": "/home/m/development/DatingApp/AuthService/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/m/.nuget/NuGet/NuGet.Config"
