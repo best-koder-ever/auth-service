@@ -55,11 +55,15 @@
   <ItemGroup>
     <None Remove="appsettings.json" />
     <None Remove="appsettings.Development.json" />
+    <None Remove="appsettings.Demo.json" />
     <None Include="appsettings.json">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
     <None Include="appsettings.Development.json">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Include="appsettings.Demo.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
