@@ -76,10 +76,12 @@ public class Startup
         }
 
         // Add DbContext with conditional logic for in-memory database
-        if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Testing")
+        if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Testing" ||
+            Environment.GetEnvironmentVariable("DEMO_MODE") == "true")
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseInMemoryDatabase("TestDb"));
+            Log.Information("Using in-memory database for demo/testing mode");
         }
         else
         {
@@ -88,6 +90,7 @@ public class Startup
                 options.UseMySql(Configuration.GetConnectionString("DefaultConnection"), 
                     new MySqlServerVersion(new Version(8, 0, 21)),
                     mySqlOptions => mySqlOptions.EnableRetryOnFailure()));
+            Log.Information("Using MySQL database for production mode");
         }
 
         services.AddIdentity<User, IdentityRole>()
