@@ -16,6 +16,7 @@ using System.Threading;
 using System.IO;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 using AuthService.Services;
 using AuthService.Data;
@@ -57,7 +58,7 @@ public class Startup
         Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Information()
             .WriteTo.Console() // Log to console
-            .WriteTo.Seq("http://seq:5341") // Log to Seq
+            .WriteTo.Seq("http://seq:8087") // Log to Seq
             .WriteTo.GrafanaLoki("http://loki:3100", labels: new[]
             {
                 new LokiLabel { Key = "app", Value = "AuthService" },
@@ -220,6 +221,11 @@ public class Startup
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();
+            // Add health check endpoint
+            endpoints.MapGet("/health", async context =>
+            {
+                await context.Response.WriteAsync("Healthy");
+            });
         });
     }
 

@@ -1,0 +1,17 @@
+Building...
+/home/m/development/DatingApp/AuthService/Services/AuthService.cs(121,36): warning CS1998: This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread. [/home/m/development/DatingApp/AuthService/AuthService.csproj]
+/home/m/development/DatingApp/AuthService/Services/AuthService.cs(128,36): warning CS1998: This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread. [/home/m/development/DatingApp/AuthService/AuthService.csproj]
+/home/m/development/DatingApp/AuthService/Services/AuthService.cs(135,34): warning CS1998: This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread. [/home/m/development/DatingApp/AuthService/AuthService.csproj]
+[09:58:35 INF] Hello, World! Serilog is working!
+[09:58:35 INF] This is a test log for Seq and Loki.
+[09:58:35 INF] Using in-memory database for demo/testing mode
+warn: Microsoft.AspNetCore.Server.Kestrel[0]
+      Overriding address(es) 'http://localhost:5151'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+info: Microsoft.Hosting.Lifetime[14]
+      Now listening on: http://[::]:8081
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/m/development/DatingApp/AuthService
