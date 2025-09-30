@@ -8,22 +8,25 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.Extensions.Logging;
+using AuthService.DTOs;
+using System.Linq;
+
 
 namespace AuthService.Controllers
 {
 
-[ApiController]
-[Route("api/[controller]")]
-public class AuthController : ControllerBase
-{
-    private readonly IAuthService _authService;
-    private readonly ILogger<AuthController> _logger;
-
-    public AuthController(IAuthService authService, ILogger<AuthController> logger)
+    [ApiController]
+    [Route("api/[controller]")]
+    public class AuthController : ControllerBase
     {
-        _authService = authService;
-        _logger = logger;
-    }
+        private readonly IAuthService _authService;
+        private readonly ILogger<AuthController> _logger;
+
+        public AuthController(IAuthService authService, ILogger<AuthController> logger)
+        {
+            _authService = authService;
+            _logger = logger;
+        }
 
     /// <summary>
     /// Registers a new user.
@@ -61,6 +64,50 @@ public class AuthController : ControllerBase
             return BadRequest(ModelState);
         }
 
+        // DEMO_MODE: allow demo logins on /api/auth/login
+        var demoMode = Environment.GetEnvironmentVariable("DEMO_MODE");
+        if (string.Equals(demoMode, "true", StringComparison.OrdinalIgnoreCase))
+        {
+            try
+            {
+                // Look up seeded user in DB (in-memory)
+                var user = await _authService.GetUserByEmailAsync(dto.Email);
+                if (user == null || !await _authService.CheckPasswordAsync(user, dto.Password))
+                {
+                    return Unauthorized(new { error = "Demo user not found or password incorrect." });
+                }
+                var token = _authService.GenerateJwtToken(user);
+                var response = new AuthService.DTOs.AuthResponseDto
+                {
+                    Success = true,
+                    Message = "Demo login successful",
+                    UserId = int.TryParse(user.Id, out var uid) ? uid : 0,
+                    Email = user.Email,
+                    Token = token,
+                    RefreshToken = GenerateDemoRefreshToken(),
+                    ExpiresAt = DateTime.UtcNow.AddHours(24),
+                    UserProfile = new AuthService.DTOs.UserProfileSummaryDto
+                    {
+                        Id = int.TryParse(user.Id, out var uid2) ? uid2 : 0,
+                        Name = user.UserName,
+                        Email = user.Email,
+                        IsVerified = true,
+                        IsOnline = true,
+                        LastActiveAt = DateTime.UtcNow,
+                        CreatedAt = DateTime.UtcNow
+                    }
+                };
+                _logger.LogInformation($"Demo login successful for {dto.Email}");
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error in demo login");
+                return StatusCode(500, "Demo login error");
+            }
+        }
+
+        // ...existing code...
         try
         {
             var result = await _authService.LoginAsync(dto);
@@ -76,6 +123,26 @@ public class AuthController : ControllerBase
             _logger.LogError(ex, "An error occurred during login.");
             return StatusCode(500, new { error = "An unexpected error occurred." });
         }
+    }
+
+    // Helper methods for demo login
+    private string GenerateDemoToken(int userId, string email)
+    {
+        var header = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes("{\"alg\":\"HS256\",\"typ\":\"JWT\"}"));
+        var payload = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes($"{{\"sub\":\"{userId}\",\"email\":\"{email}\",\"exp\":{DateTimeOffset.UtcNow.AddHours(24).ToUnixTimeSeconds()}}}"));
+        var signature = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes("demo_signature"));
+        return $"{header}.{payload}.{signature}";
+    }
+    private string GenerateDemoRefreshToken()
+    {
+        return $"demo_refresh_{Guid.NewGuid():N}";
+    }
+    private string GetDemoNameFromEmail(string email)
+    {
+        var localPart = email.Split('@')[0];
+        return localPart.Split('.').Length > 1 
+            ? string.Join(" ", localPart.Split('.').Select(part => char.ToUpper(part[0]) + part.Substring(1)))
+            : char.ToUpper(localPart[0]) + localPart.Substring(1);
     }
 
     /// <summary>

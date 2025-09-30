@@ -14,6 +14,12 @@ namespace AuthService.Services
 {
     public class AuthService : IAuthService
     {
+        public async Task<bool> CheckPasswordAsync(User user, string password)
+        {
+            return await _userManager.CheckPasswordAsync(user, password);
+        }
+        // ...existing fields and constructor...
+
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly IConfiguration _configuration;
@@ -26,6 +32,12 @@ namespace AuthService.Services
             _configuration = configuration;
             _keyProvider = keyProvider;
         }
+
+        public async Task<User?> GetUserByEmailAsync(string email)
+        {
+            return await _userManager.FindByEmailAsync(email);
+        }
+
 
         public async Task<string> RegisterAsync(RegisterDto dto)
         {
@@ -144,7 +156,7 @@ namespace AuthService.Services
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(JwtRegisteredClaimNames.Aud, _configuration["Jwt:Audience"] ?? "MyTinderCloneApp")
+                new Claim(JwtRegisteredClaimNames.Aud, _configuration["Jwt:Audience"] ?? "DatingApp-Audience")
             };
 
             var rsa = _keyProvider.GetPrivateKey();
@@ -154,7 +166,7 @@ namespace AuthService.Services
                 SecurityAlgorithms.RsaSha256
             );
 
-            var audience = _configuration["Jwt:Audience"] ?? "MyTinderCloneApp";
+            var audience = _configuration["Jwt:Audience"] ?? "DatingApp-Audience";
             var token = new JwtSecurityToken(
                 issuer: _configuration["Jwt:Issuer"],
                 audience: audience,
