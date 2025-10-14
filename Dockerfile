@@ -23,9 +23,6 @@ WORKDIR /app
 # Copy the published files
 COPY --from=build-env /app/out .
 
-# Copy the private key
-COPY private.key /app/private.key
-
 # Expose port 8081
 EXPOSE 8081
 

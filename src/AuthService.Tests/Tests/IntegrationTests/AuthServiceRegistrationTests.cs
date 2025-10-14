@@ -1,77 +1,38 @@
-using System.Net.Http.Json;
+using System.Net;
+using System.Net.Http;
+using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Xunit;
-using AuthService.Tests;
-using Microsoft.AspNetCore.Hosting; // Ensure IWebHostBuilder is recognized
-using AuthService.DTOs;
 
 namespace AuthService.Tests.IntegrationTests
 {
-    public class AuthServiceRegistrationTests : IClassFixture<CustomWebApplicationFactory<Program>>
+    public class AuthServiceRegistrationTests : IClassFixture<WebApplicationFactory<Program>>
     {
         private readonly HttpClient _client;
 
-        public AuthServiceRegistrationTests(CustomWebApplicationFactory<Program> factory)
+        public AuthServiceRegistrationTests(WebApplicationFactory<Program> factory)
         {
-            // Use the custom WebApplicationFactory to create an HttpClient
             _client = factory.CreateClient();
         }
 
         [Fact]
-        public async Task RegisterAsync_ShouldCreateUser_WhenDataIsValid()
+        public async Task RegisterEndpoint_ReturnsKeycloakMigrationDocumentationLink()
         {
-            // Arrange
-            var registerDto = new RegisterDto
+            using var request = new HttpRequestMessage(HttpMethod.Post, "/api/auth/register")
             {
-                Username = "newuser",
-                Email = "newuser@example.com",
-                Password = "Password123!",
-                ConfirmPassword = "Password123!"
+                Content = new StringContent("{}", Encoding.UTF8, "application/json")
             };
 
-            // Act
-            var response = await _client.PostAsJsonAsync("/api/auth/register", registerDto);
+            using var response = await _client.SendAsync(request);
 
-            // Assert
-            response.IsSuccessStatusCode.Should().BeTrue();
-            var responseContent = await response.Content.ReadFromJsonAsync<RegisterResponseDto>();
-            responseContent.Should().NotBeNull();
-            responseContent!.Message.Should().Be("User registered successfully.");
-        }
+            response.StatusCode.Should().Be(HttpStatusCode.Gone);
 
-        [Fact]
-        public async Task RegisterAsync_ShouldReturnBadRequest_WhenEmailAlreadyExists()
-        {
-            // Arrange
-            var uniqueEmail = $"test_{Guid.NewGuid()}@example.com";
-            var existingUserDto = new RegisterDto
-            {
-                Username = "existinguser",
-                Email = uniqueEmail,
-                Password = "Password123!",
-                ConfirmPassword = "Password123!"
-            };
-
-            // Prepopulate the database with an existing user
-            await _client.PostAsJsonAsync("/api/auth/register", existingUserDto);
-
-            var registerDto = new RegisterDto
-            {
-                Username = "newuser",
-                Email = uniqueEmail, // Same email as the existing user
-                Password = "Password123!",
-                ConfirmPassword = "Password123!"
-            };
-
-            // Act
-            var response = await _client.PostAsJsonAsync("/api/auth/register", registerDto);
-
-            // Assert
-            response.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
-            var responseContent = await response.Content.ReadAsStringAsync();
-            responseContent.Should().Contain("Email already exists.");
+            var json = JsonDocument.Parse(await response.Content.ReadAsStringAsync());
+            var documentation = json.RootElement.GetProperty("documentation").GetString();
+            documentation.Should().Be("https://docs.yourdatingapp.com/keycloak-migration");
         }
     }
 }

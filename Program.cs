@@ -1,265 +1,109 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using AuthService.Extensions;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
 using Serilog;
+using Serilog.Events;
 using Serilog.Sinks.Grafana.Loki;
 using System;
-using System.Collections.Generic;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading;
 using System.IO;
-using Microsoft.AspNetCore.Mvc.Formatters;
+using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 
-using AuthService.Services;
-using AuthService.Data;
-using AuthService.Models;
-using Microsoft.AspNetCore.Hosting;
+var builder = WebApplication.CreateBuilder(args);
 
-public class Program
+builder.Host.UseSerilog((context, services, loggerConfiguration) =>
 {
-    public static void Main(string[] args)
-    {
-        CreateHostBuilder(args).Build().Run();
-    }
+    loggerConfiguration
+        .MinimumLevel.Information()
+        .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+        .WriteTo.Console()
+        .WriteTo.Seq(context.Configuration["Serilog:SeqUrl"] ?? "http://seq:8087")
+        .WriteTo.GrafanaLoki(context.Configuration["Serilog:LokiUrl"] ?? "http://loki:3100", labels: new[]
+        {
+            new LokiLabel { Key = "app", Value = "AuthService" },
+            new LokiLabel { Key = "environment", Value = context.HostingEnvironment.EnvironmentName }
+        });
+});
 
-    public static IHostBuilder CreateHostBuilder(string[] args) =>
-        Host.CreateDefaultBuilder(args)
-            .ConfigureWebHostDefaults(webBuilder =>
-            {
-                webBuilder.UseStartup<Startup>();
-            });
+builder.Services.AddKeycloakAuthentication(builder.Configuration);
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
+builder.Services.AddControllers(options =>
+{
+    options.InputFormatters.Add(new PlainTextInputFormatter());
+});
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+    {
+        Title = "Auth Service API",
+        Version = "v1",
+        Description = "API documentation for the Auth Service."
+    });
+
+    var xmlFile = $"AuthService.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    if (File.Exists(xmlPath))
+    {
+        c.IncludeXmlComments(xmlPath);
+    }
+});
+
+var app = builder.Build();
+
+Log.Information("AuthService starting with Keycloak integration enabled");
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+else
+{
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Auth Service API v1");
+        c.RoutePrefix = string.Empty;
+    });
 }
 
-public class Startup
-{
-    public Startup(IConfiguration configuration)
-    {
-        Configuration = configuration;
-    }
+app.UseHttpsRedirection();
+app.UseCors("AllowAll");
+app.UseAuthentication();
+app.UseAuthorization();
 
-    public IConfiguration Configuration { get; }
+app.MapControllers();
+app.MapGet("/health", () => Results.Ok("Healthy"));
 
-    public void ConfigureServices(IServiceCollection services)
-    {
-        // Register IKeyProvider with FileKeyProvider
-        services.AddSingleton<IKeyProvider>(provider =>
-            new FileKeyProvider("private.key") // Provide the path to the private key
-        );
+app.Run();
 
-        // Configure Serilog
-        Log.Logger = new LoggerConfiguration()
-            .MinimumLevel.Information()
-            .WriteTo.Console() // Log to console
-            .WriteTo.Seq("http://seq:8087") // Log to Seq
-            .WriteTo.GrafanaLoki("http://loki:3100", labels: new[]
-            {
-                new LokiLabel { Key = "app", Value = "AuthService" },
-                new LokiLabel { Key = "environment", Value = "development" }
-            })
-            .CreateLogger();
-
-        try
-        {
-            Log.Information("Hello, World! Serilog is working!");
-            Log.Information("This is a test log for Seq and Loki.");
-        }
-        catch (Exception ex)
-        {
-            Log.Error(ex, "An error occurred while logging.");
-        }
-
-        // Add DbContext with conditional logic for in-memory database
-        if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Testing" ||
-            Environment.GetEnvironmentVariable("DEMO_MODE") == "true")
-        {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseInMemoryDatabase("TestDb"));
-            Log.Information("Using in-memory database for demo/testing mode");
-        }
-        else
-        {
-            // Add services to the container.
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseMySql(Configuration.GetConnectionString("DefaultConnection"), 
-                    new MySqlServerVersion(new Version(8, 0, 21)),
-                    mySqlOptions => mySqlOptions.EnableRetryOnFailure()));
-            Log.Information("Using MySQL database for production mode");
-        }
-
-        services.AddIdentity<User, IdentityRole>()
-            .AddEntityFrameworkStores<ApplicationDbContext>()
-            .AddDefaultTokenProviders();
-
-        services.AddAuthentication(options =>
-        {
-            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-        })
-        .AddJwtBearer(options =>
-        {
-            options.TokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateIssuer = true,
-                ValidateAudience = true,
-                ValidateLifetime = true,
-                ValidateIssuerSigningKey = true,
-                ValidIssuer = Configuration["Jwt:Issuer"],
-                ValidAudience = Configuration["Jwt:Issuer"],
-                IssuerSigningKey = new RsaSecurityKey(GetPrivateKey()) // Use private key for signing
-            };
-        })
-        .AddFacebook(options =>
-        {
-            options.AppId = Configuration["Authentication:Facebook:AppId"];
-            options.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
-        })
-        .AddGoogle(options =>
-        {
-            options.ClientId = Configuration["Authentication:Google:ClientId"];
-            options.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
-        });
-
-        services.AddCors(options =>
-        {
-            options.AddPolicy("AllowAll", policy =>
-            {
-                policy.AllowAnyOrigin()
-                      .AllowAnyMethod()
-                      .AllowAnyHeader();
-            });
-        });
-
-        services.Configure<Microsoft.AspNetCore.Mvc.MvcOptions>(options =>
-        {
-            options.InputFormatters.Add(new PlainTextInputFormatter());
-        });
-
-        services.AddControllers(options =>
-        {
-            options.InputFormatters.Add(new PlainTextInputFormatter());
-        });
-        services.AddScoped<IAuthService, AuthService.Services.AuthService>();
-
-        services.AddEndpointsApiExplorer();
-        services.AddSwaggerGen(c =>
-        {
-            c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
-            {
-                Title = "Auth Service API",
-                Version = "v1",
-                Description = "API documentation for the Auth Service."
-            });
-            // Ensure the XML file is correctly located
-            var xmlFile = $"AuthService.xml"; // Use the project name directly
-            var xmlPath = System.IO.Path.Combine(AppContext.BaseDirectory, xmlFile);
-            if (System.IO.File.Exists(xmlPath))
-            {
-                c.IncludeXmlComments(xmlPath);
-            }
-            else
-            {
-                // Fallback for when running in a different context (e.g. tests or Docker)
-                // This assumes the XML file is copied to the output directory of the entry assembly
-                var entryAssemblyXmlFile = $"{System.Reflection.Assembly.GetEntryAssembly()?.GetName().Name}.xml";
-                var entryAssemblyXmlPath = System.IO.Path.Combine(AppContext.BaseDirectory, entryAssemblyXmlFile);
-                if (System.IO.File.Exists(entryAssemblyXmlPath))
-                {
-                    c.IncludeXmlComments(entryAssemblyXmlPath);
-                }
-                else
-                {
-                    // Log if XML file is not found in expected locations
-                    Console.WriteLine($"Warning: XML documentation file not found at {xmlPath} or {entryAssemblyXmlPath}. Swagger UI may not display XML comments.");
-                }
-            }
-        });
-    }
-
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-    {
-        using (var scope = app.ApplicationServices.CreateScope())
-        {
-            var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-
-            // Check if the database provider is relational before calling Migrate
-            if (dbContext.Database.IsRelational())
-            {
-                dbContext.Database.Migrate();
-            }
-        }
-
-        if (env.IsDevelopment())
-        {
-            app.UseDeveloperExceptionPage();
-            app.UseSwagger();
-            app.UseSwaggerUI();
-        }
-        else
-        {
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Auth Service API v1");
-                c.RoutePrefix = string.Empty; // Serve Swagger UI at the app's root
-            });
-        }
-
-        app.UseHttpsRedirection();
-        app.UseRouting();
-        app.UseCors("AllowAll");
-        app.UseAuthentication();
-        app.UseAuthorization();
-
-        app.UseEndpoints(endpoints =>
-        {
-            endpoints.MapControllers();
-            // Add health check endpoint
-            endpoints.MapGet("/health", async context =>
-            {
-                await context.Response.WriteAsync("Healthy");
-            });
-        });
-    }
-
-    private static RSA GetPrivateKey()
-    {
-        var privateKeyPath = "private.key"; // Path to the private key file
-
-        if (!File.Exists(privateKeyPath))
-        {
-            // Generate a temporary RSA key for testing purposes
-            var rsa = RSA.Create(2048);
-            return rsa;
-        }
-
-        var privateKey = File.ReadAllText(privateKeyPath);
-        var rsaKey = RSA.Create();
-        rsaKey.ImportFromPem(privateKey);
-        return rsaKey;
-    }
-}
-
-public class PlainTextInputFormatter : Microsoft.AspNetCore.Mvc.Formatters.TextInputFormatter
+public class PlainTextInputFormatter : TextInputFormatter
 {
     public PlainTextInputFormatter()
     {
         SupportedMediaTypes.Add("text/plain");
-        SupportedEncodings.Add(System.Text.Encoding.UTF8);
-        SupportedEncodings.Add(System.Text.Encoding.Unicode);
+        SupportedEncodings.Add(Encoding.UTF8);
+        SupportedEncodings.Add(Encoding.Unicode);
     }
 
-    protected override bool CanReadType(Type type)
-    {
-        return type == typeof(string);
-    }
+    protected override bool CanReadType(Type type) => type == typeof(string);
 
     public override async Task<InputFormatterResult> ReadRequestBodyAsync(InputFormatterContext context, Encoding encoding)
     {
@@ -268,3 +112,5 @@ public class PlainTextInputFormatter : Microsoft.AspNetCore.Mvc.Formatters.TextI
         return await InputFormatterResult.SuccessAsync(content);
     }
 }
+
+public partial class Program;

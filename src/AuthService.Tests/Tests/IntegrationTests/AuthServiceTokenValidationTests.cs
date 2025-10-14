@@ -1,80 +1,37 @@
-using System.Net.Http.Json;
+using System.Net;
+using System.Text.Json;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Xunit;
-using System.IdentityModel.Tokens.Jwt;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using AuthService.Tests;
-using Microsoft.AspNetCore.Hosting; // Ensure IWebHostBuilder is recognized
 
 namespace AuthService.Tests.IntegrationTests
 {
-    public class AuthServiceTokenValidationTests : IClassFixture<CustomWebApplicationFactory<Program>>
+    public class AuthServiceTokenValidationTests : IClassFixture<WebApplicationFactory<Program>>
     {
         private readonly HttpClient _client;
 
-        public AuthServiceTokenValidationTests(CustomWebApplicationFactory<Program> factory)
+        public AuthServiceTokenValidationTests(WebApplicationFactory<Program> factory)
         {
             _client = factory.CreateClient();
         }
 
-        private string GenerateValidToken()
-        {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("SuperSecretKey12345678901234567890")); // Match server key
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
-            var token = new JwtSecurityToken(
-                issuer: "TestIssuer", // Match server issuer
-                audience: "TestAudience", // Match server audience
-                expires: DateTime.UtcNow.AddMinutes(30),
-                signingCredentials: credentials
-            );
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
-        }
-
         [Fact]
-        public async Task ValidateToken_ShouldReturnOk_WhenTokenIsValid()
+        public async Task PublicKeyEndpoint_Returns410Gone_WithKeycloakJwks()
         {
-            // Arrange
-            var validToken = GenerateValidToken();
-            var content = new StringContent(validToken, Encoding.UTF8, "text/plain");
-            // Explicitly set the Content-Type header to ensure it is recognized by the server
-            content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("text/plain");
+            using var response = await _client.GetAsync("/api/publickey");
 
-            // Log the request content type for debugging
-            Console.WriteLine($"Request Content-Type: {content.Headers.ContentType}");
+            response.StatusCode.Should().Be(HttpStatusCode.Gone);
 
-            // Act
-            var response = await _client.PostAsync("/api/auth/validate", content);
+            var raw = await response.Content.ReadAsStringAsync();
+            raw.Should().NotBeNullOrWhiteSpace();
 
-            // Assert
-            response.IsSuccessStatusCode.Should().BeTrue();
-            var responseContent = await response.Content.ReadAsStringAsync();
-            responseContent.Should().Contain("Token is valid.");
-        }
-
-        [Fact]
-        public async Task ValidateToken_ShouldReturnUnauthorized_WhenTokenIsInvalid()
-        {
-            // Arrange
-            var invalidToken = "invalid-token";
-            var content = new StringContent(invalidToken, Encoding.UTF8, "text/plain");
-            // Explicitly set the Content-Type header to ensure it is recognized by the server
-            content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("text/plain");
-
-            // Log the request content type for debugging
-            Console.WriteLine($"Request Content-Type: {content.Headers.ContentType}");
-
-            // Act
-            var response = await _client.PostAsync("/api/auth/validate", content);
-
-            // Assert
-            response.StatusCode.Should().Be(System.Net.HttpStatusCode.Unauthorized);
-            var responseContent = await response.Content.ReadAsStringAsync();
-            responseContent.Should().Contain("Malformed token.");
+            using var document = JsonDocument.Parse(raw);
+            var root = document.RootElement;
+            root.GetProperty("message").GetString().Should().Contain("Keycloak");
+            var jwks = root.GetProperty("jwks").GetString();
+            jwks.Should().NotBeNullOrWhiteSpace();
+            jwks.Should().EndWith("/protocol/openid-connect/certs");
         }
     }
 }

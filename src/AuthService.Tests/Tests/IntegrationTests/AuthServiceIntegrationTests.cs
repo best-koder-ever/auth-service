@@ -1,88 +1,69 @@
+using System.Net;
 using System.Net.Http;
-using System.Net.Http.Json;
+using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
-using AuthService.DTOs;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Xunit;
-using AuthService.Tests;
-using Microsoft.AspNetCore.Hosting; // Ensure IWebHostBuilder is recognized
 
 namespace AuthService.Tests.IntegrationTests
 {
-    public class AuthServiceIntegrationTests : IClassFixture<CustomWebApplicationFactory<Program>>
+    public class AuthServiceIntegrationTests : IClassFixture<WebApplicationFactory<Program>>
     {
         private readonly HttpClient _client;
 
-        public AuthServiceIntegrationTests(CustomWebApplicationFactory<Program> factory)
+        public AuthServiceIntegrationTests(WebApplicationFactory<Program> factory)
         {
             _client = factory.CreateClient();
         }
 
-        [Fact]
-        public async Task LoginAsync_ShouldReturnToken_WhenCredentialsAreValid()
+        public static IEnumerable<object[]> LegacyAuthEndpoints() =>
+            new List<object[]>
+            {
+                new object[] { "POST", "/api/auth/register", "POST /api/auth/register" },
+                new object[] { "POST", "/api/auth/login", "POST /api/auth/login" },
+                new object[] { "POST", "/api/auth/login/facebook", "POST /api/auth/login/facebook" },
+                new object[] { "POST", "/api/auth/login/google", "POST /api/auth/login/google" },
+                new object[] { "POST", "/api/auth/login/phone", "POST /api/auth/login/phone" },
+                new object[] { "POST", "/api/auth/refresh", "POST /api/auth/refresh" },
+                new object[] { "POST", "/api/auth/logout", "POST /api/auth/logout" },
+                new object[] { "POST", "/api/auth/forgot-password", "POST /api/auth/forgot-password" },
+                new object[] { "POST", "/api/auth/verify-email", "POST /api/auth/verify-email" },
+                new object[] { "POST", "/api/auth/validate", "POST /api/auth/validate" }
+            };
+
+        [Theory]
+        [MemberData(nameof(LegacyAuthEndpoints))]
+        public async Task LegacyAuthEndpoints_Return410Gone_WithMigrationMessage(string method, string path, string expectedEndpoint)
         {
-            // Arrange
-            // First, register a user
-            var uniqueEmail = $"test_{Guid.NewGuid()}@example.com";
-            var uniqueUsername = $"testuser_{Guid.NewGuid()}";
-            var registerDto = new RegisterDto
+            using var request = new HttpRequestMessage(new HttpMethod(method), path)
             {
-                Username = uniqueUsername,
-                Email = uniqueEmail,
-                Password = "password123",
-                ConfirmPassword = "password123"
+                Content = new StringContent("{}", Encoding.UTF8, "application/json")
             };
-            var registerResponse = await _client.PostAsJsonAsync("/api/auth/register", registerDto);
-            registerResponse.IsSuccessStatusCode.Should().BeTrue();
 
-            // Now, login with the same credentials
-            var loginDto = new LoginDto
-            {
-                Email = uniqueEmail,
-                Password = "password123"
-            };
-            var response = await _client.PostAsJsonAsync("/api/auth/login", loginDto);
+            using var response = await _client.SendAsync(request);
 
-            // Assert
-            response.IsSuccessStatusCode.Should().BeTrue();
-            var responseContent = await response.Content.ReadFromJsonAsync<LoginResponseDto>();
-            responseContent.Should().NotBeNull();
-            responseContent!.Token.Should().NotBeNullOrEmpty();
+            response.StatusCode.Should().Be(HttpStatusCode.Gone);
+
+            var raw = await response.Content.ReadAsStringAsync();
+            raw.Should().NotBeNullOrWhiteSpace();
+
+            using var document = JsonDocument.Parse(raw);
+            var root = document.RootElement;
+            root.GetProperty("message").GetString().Should().Contain("Keycloak");
+            root.GetProperty("endpoint").GetString().Should().Be(expectedEndpoint);
+            root.GetProperty("documentation").GetString().Should().NotBeNullOrWhiteSpace();
         }
 
         [Fact]
-        public async Task LoginAsync_ShouldReturnUnauthorized_WhenCredentialsAreInvalid()
+        public async Task HealthEndpoint_RemainsAvailable()
         {
-            // Arrange
-            var loginDto = new LoginDto
-            {
-                Email = "invalid@example.com",
-                Password = "wrongpassword"
-            };
-
-            // Act
-            var response = await _client.PostAsJsonAsync("/api/auth/login", loginDto);
-
-            // Assert
-            response.StatusCode.Should().Be(System.Net.HttpStatusCode.Unauthorized);
-        }
-
-        [Fact]
-        public async Task LoginAsync_ShouldReturnUnauthorized_WhenUserDoesNotExist()
-        {
-            // Arrange
-            var loginDto = new LoginDto
-            {
-                Email = "nonexistent@example.com",
-                Password = "password123"
-            };
-
-            // Act
-            var response = await _client.PostAsJsonAsync("/api/auth/login", loginDto);
-
-            // Assert
-            response.StatusCode.Should().Be(System.Net.HttpStatusCode.Unauthorized);
+            using var response = await _client.GetAsync("/health");
+            response.EnsureSuccessStatusCode();
+            var body = await response.Content.ReadAsStringAsync();
+            var parsed = JsonSerializer.Deserialize<string>(body);
+            parsed.Should().Be("Healthy");
         }
     }
 }
