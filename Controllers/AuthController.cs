@@ -68,7 +68,7 @@ namespace AuthService.Controllers
         public PublicKeyController(IConfiguration configuration, ILogger<PublicKeyController> logger)
         {
             _logger = logger;
-            _authority = configuration["Authentication:Keycloak:Authority"] ?? "https://auth.yourdatingapp.com/realms/DatingApp";
+            _authority = configuration["Keycloak:Authority"] ?? "https://auth.yourdatingapp.com/realms/DatingApp";
         }
 
         [HttpGet]

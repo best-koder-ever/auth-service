@@ -1,10 +1,12 @@
 using AuthService.Extensions;
+using DatingApp.Shared.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.Grafana.Loki;
@@ -14,6 +16,12 @@ using System.Text;
 using System.Threading.Tasks;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Logging.AddSimpleConsole(options =>
+{
+    options.IncludeScopes = true;
+    options.TimestampFormat = "yyyy-MM-dd HH:mm:ss ";
+});
 
 builder.Host.UseSerilog((context, services, loggerConfiguration) =>
 {
@@ -30,6 +38,7 @@ builder.Host.UseSerilog((context, services, loggerConfiguration) =>
 });
 
 builder.Services.AddKeycloakAuthentication(builder.Configuration);
+builder.Services.AddCorrelationIds();
 
 builder.Services.AddCors(options =>
 {
@@ -86,6 +95,7 @@ else
 
 app.UseHttpsRedirection();
 app.UseCors("AllowAll");
+app.UseCorrelationIds();
 app.UseAuthentication();
 app.UseAuthorization();
 
