@@ -64,7 +64,7 @@ namespace AuthService.Tests.UnitTests
             var config = new ConfigurationBuilder()
                 .AddInMemoryCollection(new Dictionary<string, string?>
                 {
-                    ["Authentication:Keycloak:Authority"] = "https://auth.example.com/realms/DatingApp"
+                    ["Keycloak:Authority"] = "https://auth.example.com/realms/DatingApp"
                 })
                 .Build();
 
